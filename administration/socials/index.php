@@ -1,4 +1,4 @@
-<?php $page_courante = "socials"; ?>
+<?php $page_courante = "reseaux"; ?>
 <!DOCTYPE HTML>
 <html lang="fr">
 <head>

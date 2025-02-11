@@ -1,5 +1,5 @@
 <?php
-    $requete = "SELECT * FROM `reseaux`;"; //requete pour selectionner l'ensemble des éléments de la table reseaux_sociaux
+    $requete = "SELECT * FROM `$page_courante`;"; //requete pour selectionner l'ensemble des éléments de la table reseaux_sociaux
     $resultat = mysqli_query($connexion_bdd, $requete);  //on stocke le resultat de la fonction mysqli query dans une variable
     
     function genererRequeteEtResultat($table, $id,$connexion_bdd) {

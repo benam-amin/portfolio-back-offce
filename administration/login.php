@@ -15,9 +15,9 @@
 session_start(); //reprend la session en cours
 $formulaire_soumis = !empty($_POST); //vérifie que le formulaire a été soumis
 $errMsg = ""; //initialisation d'un message d'erreur vide
-
+require_once('../assets/php/connexion_bdd.php'); //connexion à la base de données
 if ($formulaire_soumis) {
-    require_once('../assets/php/connexion_bdd.php'); //connexion à la base de données
+    
 
     if (!empty($_POST['login']) && !empty($_POST['mdp'])) { //test conditionnel pour vérifier que les champs sont bien remplis
         $login = mysqli_real_escape_string($connexion_bdd, $_POST['login']); //on récupère exactement l'entrée de l'utilisateur, real_espace_string permet de transformer la chaine pour éviter les erreurs
@@ -79,13 +79,7 @@ if ($formulaire_soumis) {
     </div>
 </main>
 
-<footer class="w-full bg-gray-800 p-4 text-center">
-    <ul class="flex justify-center space-x-4">
-        <li>&copy; Untitled. Tous droits réservés.</li>
-        <li>Design : <a href="http://html5up.net" class="text-indigo-400 hover:text-indigo-300">HTML5 UP</a></li>
-        <li><a href="../index.php" class="text-white hover:text-indigo-400">Retour au site</a></li>
-    </ul>
-</footer>
+<?require_once "footer.php"; ?>
 
 </body>
 </html>

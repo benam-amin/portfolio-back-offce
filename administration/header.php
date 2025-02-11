@@ -26,8 +26,8 @@
         ["lien" => ".././projects", "nom" => "PROJETS", "clef" => "projects"],
         ["lien" => ".././categories/", "nom" => "CATÉGORIES", "clef" => "categories"],
         ["lien" => ".././collaborators/", "nom" => "COLLABORATEURS", "clef" => "collaborators"],
-        ["lien" => ".././socials/", "nom" => "RÉSEAUX SOCIAUX", "clef" => "socials"],
-        ["lien" => "../.././", "nom" => "VISUALISATION", "clef" => "site"]
+        ["lien" => ".././socials/", "nom" => "RÉSEAUX SOCIAUX", "clef" => "reseaux"],
+        ["lien" => "../.././", "nom" => "VOIR LE SITE", "clef" => "site"]
     ];
 ?>
 
