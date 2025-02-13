@@ -9,20 +9,12 @@ PLAN D'ACTION :
 - Projet : 
     - Titre 
     - Chapo 
-    - idCollaborateur
+    - Collaborateur
     - Date
-    - idCategories
-    - Upload De fichier pour des medias
+    - Catégories
+    - Upload De fichier pour des putes
     - Descriptif du projet 
     - Visibilité
     - Technologies utilisées 
     - Couleur du projet
     - Media couverture
-- Collaborateur : 
-    - id PRIMARY KEY
-    - Nom
-    - Prénom
-    - idProjets External Key
-    - Contact (séparés d'une , attends plusieurs valeurs, seulement linkedin et éventuellement lien portfolio)  - on sépare avec la fonction preg-split // Explode but with severals delemiters $array = preg_split('/[YOUR_DELEMITERS_HERE]/', $string); // Example with ".", "-" and "@" $array = preg_split('/[.\-@]/', 'foo.bar@example.com'); // Result ['foo', 'bar', 'example', 'domain', 'com']
-    - Liens de contact                                    - pareil ici 
-    - uploadDeFichier

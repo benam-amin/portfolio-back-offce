@@ -11,7 +11,7 @@
 <body class="bg-gray-100 text-gray-900">
 
     <!-- Header -->
-    <?php require_once('../header.php'); //on reprend notre header
+    <?php require_once('../header-admin.php'); //récupération du header
     ?>
 
     <!-- Section principale -->
@@ -44,12 +44,13 @@
                         <?php
                             if(mysqli_num_rows($resultat)> 0) {
                                 while($entite = mysqli_fetch_assoc($resultat)) {//on utilise la variable $entite afin de stocker le tableau associatif retourné par mysqli_fetch_assoc
+                                    //affichage du contenu de la table
                                     echo "<tr class='text-center border-b'>";
-                                    echo "<td class='px-6 py-3 text-xl'><i class='fa-brands fa-{$entite["classIcon"]}'></i></td>";
+                                    echo "<td class='px-6 py-3 text-xl'><i class='fa-brands fa-{$entite["classIcon"]}'></i></td>"; 
                                     echo "<td class='px-6 py-3'>{$entite["nom"]}</td>";
                                     echo "<td class='px-6 py-3'>{$entite["lien"]}</td>";
                                     echo "<td class='px-6 py-3'>{$entite["classIcon"]}</td>";
-                                    if ($entite['visibilite'] == 1) {
+                                    if ($entite['visibilite'] == 1) { //vérifie la valeur de la colonne visibilité pour l'entite actuelle
                                         echo "<td class='px-6 py-3'>Visible</td>";
                                     } else {
                                         echo "<td class='px-6 py-3'>Masqué</td>";
@@ -71,7 +72,7 @@
 
 
     <!-- Footer -->
-    <?php require_once('../footer.php'); ?>
+    <?php require_once('../footer-admin.php'); //récupération du header ?>
 
 </body>
 </html>

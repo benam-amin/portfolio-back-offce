@@ -1,7 +1,7 @@
 <?php
     require_once('../../assets/php/connexion_bdd.php'); //connexion à la base de données
-    require_once('../liensModifEtSuppr.php'); //on récupère les fonctions de génération de lien
-    require_once('../requete.php'); //on récupère les requête pour l'affichage lors des modification et de la suppression
+    require_once('../assets/liensModifEtSuppr.php'); //on récupère les fonctions de génération de lien
+    require_once('../assets/requete.php'); //on récupère les requête pour l'affichage lors des modification et de la suppression
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }

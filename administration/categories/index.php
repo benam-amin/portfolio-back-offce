@@ -11,7 +11,7 @@
 <body class="bg-gray-100 text-gray-900">
 
     <!-- Header -->
-    <?php require_once('../header.php'); ?>
+    <?php require_once('../header-admin.php'); //récupération du header ?>
 
     <!-- Section principale -->
     <section class="py-12 px-6">
@@ -57,7 +57,7 @@
 
 
     <!-- Footer -->
-    <?php require_once('../footer.php'); ?>
+    <?php require_once('../footer-admin.php'); //récupération du header ?>
 
 </body>
 </html>
