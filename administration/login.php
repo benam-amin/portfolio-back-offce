@@ -79,7 +79,7 @@ if ($formulaire_soumis) {
     </div>
 </main>
 
-<?require_once "footer.php"; //récupération des footer?>
+<?require_once "footer-admin.php"; //récupération des footer?>
 
 </body>
 </html>

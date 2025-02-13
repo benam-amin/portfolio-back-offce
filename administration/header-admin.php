@@ -1,6 +1,7 @@
 <?php
     require_once('../../assets/php/connexion_bdd.php'); //connexion à la base de données
     require_once('../assets/liensModifEtSuppr.php'); //on récupère les fonctions de génération de lien
+    require_once('../assets/functionAffichage.php'); //on récupère les fonctions de génération de lien
     require_once('../assets/requete.php'); //on récupère les requête pour l'affichage lors des modification et de la suppression
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
@@ -27,6 +28,7 @@
         ["lien" => ".././categories/", "nom" => "CATÉGORIES", "clef" => "categories"],
         ["lien" => ".././collaborators/", "nom" => "COLLABORATEURS", "clef" => "collaborators"],
         ["lien" => ".././socials/", "nom" => "RÉSEAUX SOCIAUX", "clef" => "reseaux"],
+        ["lien" => ".././navigation/", "nom" => "NAVIGATION", "clef" => "navigation"],
         ["lien" => "../.././", "nom" => "VOIR LE SITE", "clef" => "site"]
     ];
 ?>

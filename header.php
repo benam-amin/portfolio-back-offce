@@ -8,7 +8,7 @@
 					<nav id="nav">
 						<ul>
 							<?php displayNavMenu($connexion_bdd, "navigation");?>
-							<li>
+							<!-- <li>
 								<a href="#">Layouts</a>
 								<ul>
 									<li><a href="left-sidebar.php">Left Sidebar</a></li>
@@ -26,7 +26,7 @@
 								</ul>
 							</li>
 							<li><a href="elements.php">Elements</a></li>
-							<li><a href="#" class="button primary">Sign Up</a></li>
+							<li><a href="#" class="button primary">Sign Up</a></li> -->
 						</ul>
 					</nav>
 				</header>
