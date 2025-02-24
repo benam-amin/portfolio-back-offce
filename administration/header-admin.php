@@ -3,6 +3,8 @@
     require_once('../assets/liensModifEtSuppr.php'); //on récupère les fonctions de génération de lien
     require_once('../assets/functionAffichage.php'); //on récupère les fonctions de génération de lien
     require_once('../assets/requete.php'); //on récupère les requête pour l'affichage lors des modification et de la suppression
+    require_once('../assets/gestionUpload.php'); //récupère la gestion des formulaire d'upload
+    require_once('../assets/inputUpload.php'); //permet de générer le champ upload du formulaire
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }

@@ -1,17 +1,29 @@
-<?php $page_courante = "reseaux"; ?>
+<?php $page_courante = "collaborators"; ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Création - Réseaux Sociaux</title>
+    <title>Création - Collaborateur</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="bg-gray-100 text-gray-900">
-    <?php 
-        require_once('../header-admin.php'); //récupération du header
-
+    <?php
+        
+        require_once('../header-admin.php'); //récupération du header et de toutes les fonctions que l'on récupère depuis celui-ci
+        $error_msg_collaborators = "";
+        $collaboratorsPath = "";
+        
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $uploadResult = uploadImage("collaborators");
+        
+            if (isset($uploadResult["error"])) {
+                $error_msg_collaborators = $uploadResult["error"];
+            } elseif (isset($uploadResult["success"])) {
+                $collaboratorsPath = $uploadResult["success"]; // Stocker le chemin pour la BDD
+            }
+        }
         $formulaire_soumis = (!empty($_POST)); // Vérification de la soumission du formulaire
         $error_msg = ""; // Variable pour stocker les messages d'erreur
 
@@ -43,6 +55,7 @@
                 <div class="w-full bg-white rounded-lg shadow-md p-6 border border-gray-200">
                     <form method="POST" action="">
                         <section class="grid gap-6">
+                            <?php inputUpload("Photo du Collaborateur", "collaborators", $collaboratorsPath, $error_msg_collaborators);?>
                             <div>
                                 <label for="nom" class="block text-lg font-medium text-gray-700">Nom du réseau</label>
                                 <input type="text" placeholder="Twitter, Facebook, linkedin" name="nom" id="nom" 
@@ -89,5 +102,6 @@
     </main>
     <?php 
         require_once('../footer-admin.php'); //récupération du header ?>
+    <script src="../assets/dragDrop.js"></script>
 </body>
 </html>
