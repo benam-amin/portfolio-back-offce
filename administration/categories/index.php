@@ -17,7 +17,13 @@
     <section class="py-12 px-6">
         <div class="container mx-auto">
             <h1 class="text-3xl font-bold text-center mb-8">Catégories</h1>
-
+            <!-- Bouton vers les pages de création --> 
+            <div class="flex justify-end mb-4">
+                <a href="creer.php"
+                    class="rounded-md py-2 px-4 text-base font-semibold text-white bg-gray-800 shadow-md hover:bg-gray-400 flex items-center gap-2">
+                    <i class="fas fa-plus"></i> Ajouter un nouveau collaborateurs !
+                </a>
+            </div>
             <!-- Tableau des projets -->
             <div class="overflow-x-auto">
                 <table class="min-w-full bg-white shadow-md rounded-lg border">

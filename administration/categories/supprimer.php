@@ -20,7 +20,7 @@
         $entite = mysqli_fetch_assoc($resultat_affiche);
     
         if ($formulaire_soumis && $entite) { //on vérifie si le contenu par rapport à l'id n'est pas vide
-            deleteFromTable($connexion_bdd, "categories", $id)
+            deleteFromTable($connexion_bdd, "categories", $id);
         }
     }?>
 <main class="mx-auto max-w-3xl p-8 bg-white shadow-lg rounded-lg">
@@ -37,9 +37,9 @@
                 </thead>
                 <tbody>
                     <tr class="border-b text-center">
-                        <td class="px-6 py-3 text-xl"><i class="fa-brands fa-<?= htmlspecialchars($entite["id"]) ?> text-gray-700"></i></td>
-                        <td class="px-6 py-3 text-xl"> <?= htmlspecialchars($entite["nom"]) ?> </td>
-                        <td class="px-6 py-3 text-xl"> <?= htmlspecialchars($entite["description"]) ?> </td>
+                        <td class="px-6 py-3 text-xl"><i class="fa-brands fa-<?echo $entite["id"] ; ?> text-gray-700"></i></td>
+                        <td class="px-6 py-3 text-xl"> <?echo $entite["nom"]; ?> </td>
+                        <td class="px-6 py-3 text-xl"> <? echo $entite["description"]; ?> </td>
                     </tr>
                 </tbody>
             </table>

@@ -11,7 +11,7 @@
 <body class="bg-gray-100 text-gray-900">
     <?php 
         require_once('../header-admin.php'); //récupération du header
-        require_once('../assets/fonctionAdd/addCategories.php');//ajout de la fonction qui permet l'ajout d'une catégorie
+        require_once('../assets/fonctionBdd/addCategories.php');//ajout de la fonction qui permet l'ajout d'une catégorie
 
         $formulaire_soumis = (!empty($_POST)); // Vérification de la soumission du formulaire
         $error_msg = ""; // Variable pour stocker les messages d'erreur
@@ -42,12 +42,12 @@
                         <section class="grid gap-6">
                             <div>
                                 <label for="nom" class="block text-lg font-medium text-gray-700">Nom de la catégorie</label>
-                                <input type="text" placeholder="Twitter, Facebook, linkedin" name="nom" id="nom" 
+                                <input type="text" placeholder="Developpement, sport, etc..." name="nom" id="nom" 
                                     class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800">
                             </div>
                             <div>
-                                <label for="lien" class="block text-lg font-medium text-gray-700">Description de la catégorie</label>
-                                <input type="text" placeholder="lien du réseau" name="lien" id="lien" 
+                                <label for="description" class="block text-lg font-medium text-gray-700">Description de la catégorie</label>
+                                <input type="textarea" placeholder="Description de la catégorie" name="description" id="description" 
                                     class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800">
                             </div>
                             <div class="flex gap-4">

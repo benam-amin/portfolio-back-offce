@@ -30,7 +30,7 @@
                 $nom = htmlentities($_POST["nom"]);
                 $description = htmlentities($_POST["description"]);
                 
-                $requete_modif = "UPDATE categories SET nom = '$nom', description = '$description WHERE id = $id;"; //requête de modification
+                $requete_modif = "UPDATE categories SET nom = '$nom', description = '$description' WHERE id = $id;"; //requête de modification
                 $resultat_modif = mysqli_query($connexion_bdd, $requete_modif); //résultat
                 //si tout se passe bien, on retourne à la page précédente
                 header("Location: ./"); 
@@ -51,12 +51,12 @@
                         <section class="grid gap-6">
                             <div>
                                 <label for="nom" class="block text-lg font-medium text-gray-700">Nom de la catégorie</label>
-                                <input type="text" value="<?= htmlspecialchars($entite['nom']); ?>" name="nom" id="nom" 
+                                <input type="text" value="<?php echo $entite['nom']; ?>" name="nom" id="nom" 
                                     class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800">
                             </div>
                             <div>
                                 <label for="description" class="block text-lg font-medium text-gray-700">Description de la catégorie</label>
-                                <input type="text" value="<?= htmlspecialchars($entite['description']) ; ?>" name="description" id="description" 
+                                <input type="textarea" value="<?php echo $entite['description']; ?>" name="description" id="description" 
                                     class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800">
                             </div> 
                             <div class="flex gap-4">
