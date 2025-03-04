@@ -5,25 +5,11 @@
     require_once('../assets/requete.php'); //on récupère les requête pour l'affichage lors des modification et de la suppression
     require_once('../assets/gestionUpload.php'); //récupère la gestion des formulaire d'upload
     require_once('../assets/inputUpload.php'); //permet de générer le champ upload du formulaire
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
-    
-    // Vérifie si l'utilisateur est connecté, sinon redirige vers la page de connexion
-    if (!isset($_SESSION['connected']) || !$_SESSION['connected']) {
-        // Enregistre l'URL actuelle dans une variable de session
-        $_SESSION['redirect_to'] = $_SERVER['REQUEST_URI'];
-        // Redirige vers la page de connexion
-        header("Location: ../login.php");
-        exit();
-    }
+    require_once('../assets/verificationConnexion.php'); //verifie si la connexion est effectuée via les sessions
+    require_once('../assets/deconnexion.php'); //verifie si la connexion est effectuée via les sessions
     if (isset($_GET['action']) && $_GET['action'] === 'click_button') {
         // Déconnexion
-        session_destroy();
-        // Redirige vers la page de connexion après la déconnexion
-        header("Location: ../login.php");
-        
-        exit();
+        deconnexion();
     }
     $liste_entrees_menu = [ //initie les liens de navigation avec un tableau multidimensionnel stockant des tableaux associatifs
         ["lien" => ".././projects", "nom" => "PROJETS", "clef" => "projects"],
