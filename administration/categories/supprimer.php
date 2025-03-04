@@ -11,17 +11,16 @@
 </head>
 <body class="bg-gray-100 text-gray-900">
     <?php require_once('../header-admin.php'); //récupération du header
+    require_once('../assets/fonctionBdd/delete.php'); //fonction pour valider la suppression
     $id = isset($_GET['id']) ? intval($_GET['id']) : 0; //on vérifie si l'id est défini sinon on le défini à 0
     $formulaire_soumis = !empty($_POST);
     
     if ($id > 0) { //on ne fait ceci que si l'id est défini
-        $resultat_affiche = genererRequeteEtResultat("reseaux", $id, $connexion_bdd);
+        $resultat_affiche = genererRequeteEtResultat("categories", $id, $connexion_bdd);
         $entite = mysqli_fetch_assoc($resultat_affiche);
     
         if ($formulaire_soumis && $entite) { //on vérifie si le contenu par rapport à l'id n'est pas vide
-            $requete_suppr = "DELETE FROM `reseaux` WHERE id = $id";
-            mysqli_query($connexion_bdd, $requete_suppr); //suppression de l'élément de la table réseau
-            echo "<div class='text-center text-green-600 font-bold text-xl py-4'>L'élément a bien été supprimé ! <a href='./' class='text-red-500'>Retour</a></div>";
+            deleteFromTable($connexion_bdd, "categories", $id)
         }
     }?>
 <main class="mx-auto max-w-3xl p-8 bg-white shadow-lg rounded-lg">
@@ -31,16 +30,16 @@
             <table class="w-full border-collapse ">
                 <thead>
                     <tr class="bg-gray-800 text-white">
-                        <th class="px-6 py-3 border">Icône</th>
+                        <th class="px-6 py-3 border">Id</th>
                         <th class="px-6 py-3 border">Nom</th>
-                        <th class="px-6 py-3 border">Lien</th>
+                        <th class="px-6 py-3 border">Description</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="border-b text-center">
-                        <td class="px-6 py-3 text-xl"><i class="fa-brands fa-<?= htmlspecialchars($entite["classIcon"]) ?> text-gray-700"></i></td>
+                        <td class="px-6 py-3 text-xl"><i class="fa-brands fa-<?= htmlspecialchars($entite["id"]) ?> text-gray-700"></i></td>
                         <td class="px-6 py-3 text-xl"> <?= htmlspecialchars($entite["nom"]) ?> </td>
-                        <td class="px-6 py-3 text-xl"> <?= htmlspecialchars($entite["lien"]) ?> </td>
+                        <td class="px-6 py-3 text-xl"> <?= htmlspecialchars($entite["description"]) ?> </td>
                     </tr>
                 </tbody>
             </table>

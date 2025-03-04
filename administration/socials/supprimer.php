@@ -11,6 +11,7 @@
 </head>
 <body class="bg-gray-100 text-gray-900">
     <?php require_once('../header-admin.php'); //récupération du header
+    require_once('../assets/fonctionBdd/delete.php'); //fonction pour valider la suppression
     $id = isset($_GET['id']) ? intval($_GET['id']) : 0; //on vérifie si l'id est défini sinon on le défini à 0
     $formulaire_soumis = !empty($_POST);
     

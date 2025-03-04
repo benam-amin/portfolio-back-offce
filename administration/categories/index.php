@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Projets - Tailwind</title>
+    <title>Catégories - Back Office Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -16,14 +16,14 @@
     <!-- Section principale -->
     <section class="py-12 px-6">
         <div class="container mx-auto">
-            <h1 class="text-3xl font-bold text-center mb-8">Nos Projets</h1>
+            <h1 class="text-3xl font-bold text-center mb-8">Catégories</h1>
 
             <!-- Tableau des projets -->
             <div class="overflow-x-auto">
                 <table class="min-w-full bg-white shadow-md rounded-lg border">
                     <thead>
                         <tr class="bg-gray-800 text-white">
-                            <th class="px-6 py-3 border">Icône</th>
+                            <th class="px-6 py-3 border">Id</th>
                             <th class="px-6 py-3 border">Nom</th>
                             <th class="px-6 py-3 border">Description</th>
                             <th class="px-6 py-3 border">Actions</th>
@@ -31,22 +31,19 @@
                     </thead>
                     <tbody>
                         <?php
-                        $elements = [
-                            ["nom" => "Projet Alpha", "description" => "Un projet innovant", "icon" => "fa-folder"],
-                            ["nom" => "Collaboration Beta", "description" => "Travail en équipe", "icon" => "fa-users"],
-                            ["nom" => "Catégorie Gamma", "description" => "Classification", "icon" => "fa-tag"],
-                            ["nom" => "Message Delta", "description" => "Communication", "icon" => "fa-comment"],
-                        ];
-                        foreach ($elements as $element) {
-                            echo "<tr class='text-center border-b'>";
-                            echo "<td class='px-6 py-3 text-xl'><i class='fas {$element["icon"]} text-gray-700'></i></td>";
-                            echo "<td class='px-6 py-3'>{$element["nom"]}</td>";
-                            echo "<td class='px-6 py-3'>{$element["description"]}</td>";
-                            echo "<td class='px-6 py-3'>
-                                    <button class='bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700'><i class='fas fa-edit'></i></button>
-                                    <button class='bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700'><i class='fas fa-trash'></i></button>
-                                  </td>";
-                            echo "</tr>";
+                        if(mysqli_num_rows($resultat)> 0) { //la variable résultat se trouve dans le fichier requete.php
+                            while($entite = mysqli_fetch_assoc($resultat)) {//on utilise la variable $entite afin de stocker le tableau associatif retourné par mysqli_fetch_assoc
+                                //affichage du contenu de la table
+                                echo "<tr class='text-center border-b'>"; 
+                                echo "<td class='px-6 py-3'>{$entite["id"]}</td>";
+                                echo "<td class='px-6 py-3'>{$entite["nom"]}</td>";
+                                echo "<td class='px-6 py-3'>{$entite["description"]}</td>";
+                                echo "<td class='px-6 py-3'>
+                                        <a href='".genererLienModif($entite["id"])."'><button class='bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700'><i class='fas fa-edit'></i></button></a>
+                                        <a href='".genererLienSupprimer($entite["id"])."'><button class='bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700'><i class='fas fa-trash'></i></button></a>
+                                      </td>";
+                                echo "</tr>";
+                            }
                         }
                         ?>
                     </tbody>
