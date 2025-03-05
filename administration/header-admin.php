@@ -22,10 +22,7 @@
 ?>
 
 <header id="header" class="bg-gray-900 shadow-lg">
-    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-        <h1 id="logo" class="text-2xl font-bold text-white">
-            <a href="../../index.php" class="hover:text-gray-400 transition duration-300">Benamaouche</a>
-        </h1>
+    <div class="container mx-auto mx-2 py-4 flex justify-around items-center">
         <nav id="nav">
             <div class="flex space-x-4">
                 <?php foreach ($liste_entrees_menu as $entree_menu): // Boucle pour afficher le menu de navigation à partir du tableau multidimensionnel

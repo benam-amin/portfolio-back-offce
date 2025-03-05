@@ -43,7 +43,7 @@
 
     <main class="mx-6 md:mx-20">
         <?php if ($entite) { //si il y a bel et bien un élément à modifier ?>
-            <div class="mx-auto max-w-lg py-6">
+            <div class="mx-auto max-w-lg py-12">
                 <h1 class="text-3xl font-bold text-center mb-8">Modification de <?php echo strtoupper($entite['contenu']); ?></h1>
                 
                 <div class="w-full bg-white rounded-lg shadow-md p-6 border border-gray-200">

@@ -25,7 +25,7 @@
             echo "<div class='text-center text-green-600 font-bold text-xl py-4'>L'élément a bien été supprimé ! <a href='./' class='text-red-500'>Retour</a></div>";
         }
     }?>
-<main class="mx-auto max-w-3xl p-8 bg-white shadow-lg rounded-lg">
+<main class="mx-auto max-w-3xl py-12 rounded-lg">
     <?php if ($entite) { ?>
         <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">Voulez-vous vraiment supprimer <?= strtoupper($entite["nom"]); ?> ?</h1>
         <div class="bg-gray-50 p-6 rounded-md shadow-md">

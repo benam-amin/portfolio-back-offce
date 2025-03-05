@@ -54,6 +54,9 @@
             </div>
         </div>
     </section>
+    <div id="editor">
+
+    </div>
 
 
     <!-- Footer -->

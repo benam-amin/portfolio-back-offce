@@ -1,11 +1,11 @@
-<?php $page_courante = "reseaux";
+<?php $page_courante = "categories";
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suppression - Réseaux Sociaux</title>
+    <title>Suppression - Catégories</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -23,10 +23,10 @@
             deleteFromTable($connexion_bdd, "categories", $id);
         }
     }?>
-<main class="mx-auto max-w-3xl p-8 bg-white shadow-lg rounded-lg">
+<main class="mx-auto max-w-3xl p-12 rounded-lg">
     <?php if ($entite) { ?>
         <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">Voulez-vous vraiment supprimer <?= strtoupper($entite["nom"]); ?> ?</h1>
-        <div class="bg-gray-50 p-6 rounded-md shadow-md">
+        <div class="bg-gray-50 py-12 rounded-md shadow-md">
             <table class="w-full border-collapse ">
                 <thead>
                     <tr class="bg-gray-800 text-white">

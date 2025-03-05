@@ -11,7 +11,9 @@
 <body class="bg-gray-100 text-gray-900">
 
     <!-- Header -->
-    <?php require_once('header.php'); ?>
+    <?php
+    header('Location: projects/') ;
+    require_once('header-admin.php'); ?>
 
     <!-- Section principale -->
     <section class="py-12 px-6">
