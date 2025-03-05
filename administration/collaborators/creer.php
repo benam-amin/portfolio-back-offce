@@ -1,4 +1,6 @@
-<?php $page_courante = "collaborators"; ?>
+<?php 
+$page_courante = "collaborators"; 
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -10,98 +12,124 @@
 </head>
 <body class="bg-gray-100 text-gray-900">
     <?php
-        
-        require_once('../header-admin.php'); //récupération du header et de toutes les fonctions que l'on récupère depuis celui-ci
+        require_once('../header-admin.php'); // Récupération du header et de la connexion à la BDD
+
         $error_msg_collaborators = "";
-        $collaboratorsPath = "";
-        
+        $collaboratorsPath = null; // Initialisation de l'avatar
+        $error_msg = "";
+
+        // Vérification de la soumission du formulaire
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $uploadResult = uploadImage("collaborators");
-        
-            if (isset($uploadResult["error"])) {
-                $error_msg_collaborators = $uploadResult["error"];
-            } elseif (isset($uploadResult["success"])) {
-                $collaboratorsPath = $uploadResult["success"]; // Stocker le chemin pour la BDD
+            
+            // Vérification de la connexion à la base de données
+            if (!isset($connexion_bdd)) {
+                die("Erreur : Connexion à la base de données non établie.");
             }
-        }
-        $formulaire_soumis = (!empty($_POST)); // Vérification de la soumission du formulaire
-        $error_msg = ""; // Variable pour stocker les messages d'erreur
 
-        if ($formulaire_soumis) {
-            // Vérification que tous les champs sont remplis
-            if (!empty($_POST["nom"]) && !empty($_POST["lien"]) && !empty($_POST["classIcon"])) {
-                $id = $_GET["id"]; // Récupération de l'ID pour l'envoi correct
-                $nom = htmlentities($_POST["nom"]); 
-                $lien = htmlentities($_POST["lien"]); 
-                $classIcon = htmlentities($_POST["classIcon"]); 
-                $visibilite = (int) $_POST["visibilite"]; // Visibilité en entier (0 ou 1)
+            // Vérification que les champs obligatoires sont remplis
+            if (!empty($_POST["nom"]) && !empty($_POST["prenom"])) {
+                
+                // Récupération et nettoyage des données du formulaire
+                $nom = htmlentities($_POST["nom"]);
+                $prenom = htmlentities($_POST["prenom"]);
+                
+                // Gestion des listes (nettoyage et transformation en chaîne)
+                $contactListe = isset($_POST["contactListe"]) ? implode(',', array_map('trim', explode(',', $_POST["contactListe"]))) : '';
+                $liens = isset($_POST["liens"]) ? implode(',', array_map('trim', explode(',', $_POST["liens"]))) : '';
 
-                $requete = "INSERT INTO reseaux (nom, lien, classIcon, visibilite) VALUES ('$nom', '$lien', '$classIcon', '$visibilite');";
-                $resultat= mysqli_query($connexion_bdd, $requete); // Exécution de la requête
+                // Gestion de l'upload de l'avatar
+                if (!empty($_FILES["collaborators"]["name"])) { // Vérifie si un fichier est bien envoyé
+                    $uploadResult = uploadImage("collaborators");
+                    
+                    if (isset($uploadResult["error"])) {
+                        $error_msg_collaborators = $uploadResult["error"];
+                    } elseif (isset($uploadResult["success"])) {
+                        $collaboratorsPath = $uploadResult["success"]; // Stockage du chemin dans la BDD
+                    }
+                }
 
-                // Redirection après mise à jour
-                header("Location: ./");
-                exit();
+                // Préparation de la requête d'insertion sécurisée
+                $requete = "INSERT INTO collaborators (nom, prenom, contactListe, liensContact, avatar) VALUES (?, ?, ?, ?, ?)";
+                
+                if ($stmt = $connexion_bdd->prepare($requete)) {
+                    // Liaison des paramètres avec les valeurs
+                    $stmt->bind_param("sssss", $nom, $prenom, $contactListe, $liens, $collaboratorsPath);
+                    
+                    // Exécution de la requête
+                    if ($stmt->execute()) {
+                        // Redirection en cas de succès
+                        header("Location: ./");
+                        exit();
+                    } else {
+                        $error_msg = "Erreur lors de l'ajout du collaborateur.";
+                    }
+
+                    // Fermeture de la requête préparée
+                    $stmt->close();
+                } else {
+                    $error_msg = "Erreur lors de la préparation de la requête.";
+                }
+
             } else {
                 // Message d'erreur si un champ est vide
                 $error_msg = "Veuillez remplir tous les champs du formulaire.";
             }
         }
-        ?>
+    ?>
+
     <main class="mx-6 md:mx-20">
-            <div class="mx-auto max-w-lg py-12">
-                <h1 class="text-3xl font-bold text-center mb-8">Création d'un nouveau réseau social</h1>
-                
-                <div class="w-full bg-white rounded-lg shadow-md p-6 border border-gray-200">
-                    <form method="POST" action="">
-                        <section class="grid gap-6">
-                            <?php inputUpload("Photo du Collaborateur", "collaborators", $collaboratorsPath, $error_msg_collaborators);?>
-                            <div>
-                                <label for="nom" class="block text-lg font-medium text-gray-700">Nom du réseau</label>
-                                <input type="text" placeholder="Twitter, Facebook, linkedin" name="nom" id="nom" 
-                                    class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800">
-                            </div>
-                            <div>
-                                <label for="lien" class="block text-lg font-medium text-gray-700">Lien du réseau</label>
-                                <input type="text" placeholder="lien du réseau" name="lien" id="lien" 
-                                    class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800">
-                            </div>
-                            <div>
-                                <label for="classIcon" class="block text-lg font-medium text-gray-700">Classe de l'icône</label>
-                                <input type="text" placeholder="x-twitter..." name="classIcon" id="classIcon" 
-                                    class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800">
-                            </div>
-                            <!-- Section des boutons radio pour la visibilité -->
-                            <div>
-                                <label class="block text-lg font-medium text-gray-700">Visibilité</label>
-                                <div class="mt-2 flex gap-4">
-                                    <label class="inline-flex items-center">
-                                        <input type="radio" name="visibilite" value="1" class="form-radio text-blue-600" checked>
-                                        <span class="ml-2">Visible</span>
-                                    </label>
-                                    <label class="inline-flex items-center">
-                                        <input type="radio" name="visibilite" value="0" class="form-radio text-blue-600">
-                                        <span class="ml-2">Masqué</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="flex gap-4">
-                                <button type="submit" class="rounded-md bg-blue-500 py-2 px-4 text-lg font-medium text-white shadow-sm hover:bg-blue-700">Créer</button>
-                                <a href="./" class="rounded-md bg-gray-600 py-2 px-4 text-lg font-medium text-white shadow-sm hover:bg-gray-700">Retour</a>
-                            </div>
-                        </section>
-                    </form>
-                </div>
-                
-                <?php if (!empty($error_msg)) {  //si il y a un message d'erreur, on l'affiche?>
-                    <section class="mt-4 text-red-500 text-lg font-semibold" role="alert">
-                        <p><?php echo $error_msg; ?></p>
+        <div class="mx-auto max-w-lg py-12">
+            <h1 class="text-3xl font-bold text-center mb-8">Ajout d'un nouveau collaborateur</h1>
+            
+            <div class="w-full bg-white rounded-lg shadow-md p-6 border border-gray-200">
+                <form method="POST" action="" enctype="multipart/form-data">
+                    <section class="grid gap-6">
+                        <div>
+                            <label for="nom" class="block text-lg font-medium text-gray-700">Nom</label>
+                            <input type="text" placeholder="Nom" name="nom" id="nom" required
+                                class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800">
+                        </div>
+                        <div>
+                            <label for="prenom" class="block text-lg font-medium text-gray-700">Prénom</label>
+                            <input type="text" placeholder="Prénom" name="prenom" id="prenom" required
+                                class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800">
+                        </div>
+                        <div>
+                            <label for="contactListe" class="block text-lg font-medium text-gray-700">Liste des réseaux du collaborateur</label>
+                            <input type="text" placeholder="twitter,github... (séparés d'une virgule sans espace)" name="contactListe" id="contactListe"
+                                class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800">
+                        </div>
+                        <div>
+                            <label for="liens" class="block text-lg font-medium text-gray-700">Liens des réseaux</label>
+                            <input type="text" placeholder="liens des réseaux (séparés d'une virgule sans espace)" name="liens" id="liens"
+                                class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800">
+                        </div>
+                        
+                        <!-- Upload de l'image -->
+                        <div>
+                            <?php inputUpload("Photo du Collaborateur", "collaborators", $collaboratorsPath, $error_msg_collaborators); ?>
+                            <?php if (!empty($error_msg_collaborators)) { ?>
+                                <p class='text-red-500 text-sm mt-2'><?php echo $error_msg_collaborators; ?></p>
+                            <?php } ?>
+                        </div>
+                        
+                        <div class="flex gap-4">
+                            <button type="submit" class="rounded-md bg-blue-500 py-2 px-4 text-lg font-medium text-white shadow-sm hover:bg-blue-700">Créer</button>
+                            <a href="./" class="rounded-md bg-gray-600 py-2 px-4 text-lg font-medium text-white shadow-sm hover:bg-gray-700">Retour</a>
+                        </div>
                     </section>
-                <?php } ?>
+                </form>
             </div>
+            
+            <?php if (!empty($error_msg)) { ?>
+                <section class="mt-4 text-red-500 text-lg font-semibold" role="alert">
+                    <p><?php echo $error_msg; ?></p>
+                </section>
+            <?php } ?>
+        </div>
     </main>
-    <?php 
-        require_once('../footer-admin.php'); //récupération du header ?>
+
+    <?php require_once('../footer-admin.php'); ?>
     <script src="../assets/dragDrop.js"></script>
 </body>
 </html>

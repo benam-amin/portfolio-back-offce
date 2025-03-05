@@ -1,9 +1,9 @@
 <?php
-function uploadImage($inputName, $uploadDir = '../upload/uploadImage/', $allowedTypes = ["jpg", "png", "jpeg", "gif"], $maxSizeMB = 2) {
+function uploadImage($inputName, $uploadDir = '../upload/', $allowedTypes = ["jpg", "png", "jpeg", "gif"], $maxSizeMB = 2) {
     if (!isset($_FILES[$inputName]) || $_FILES[$inputName]["error"] !== UPLOAD_ERR_OK) {
         return ["error" => "Aucun fichier envoyé ou une erreur est survenue."];
     }
-    $uploadDir = "../upload/uploadImage/" + $inputName + "/";
+    $uploadDir = "../upload/" . $inputName . "/";
     $file = $_FILES[$inputName]; 
     $fileName = basename($file["name"]);
     $fileType = strtolower(pathinfo($fileName, PATHINFO_EXTENSION)); //PATHINFO_EXTENSION récupère l'extension du fichier
@@ -24,12 +24,13 @@ function uploadImage($inputName, $uploadDir = '../upload/uploadImage/', $allowed
     }
 
     // Génération d'un nom unique
-    $newFileName = time() . "_" . $fileName;
+    $newFileName = date('YmdHis') . "_" . $fileName;
     $filePath = $uploadDir . $newFileName;
+    $filePathDatabase = "upload/" . $inputName . "/" . $newFileName;
 
     // Déplacement du fichier
     if (move_uploaded_file($file["tmp_name"], $filePath)) {
-        return ["success" => $filePath]; // Retourne le chemin du fichier
+        return ["success" => $filePathDatabase]; // Retourne le chemin du fichier
     } else {
         return ["error" => "Erreur lors de l'upload."];
     }

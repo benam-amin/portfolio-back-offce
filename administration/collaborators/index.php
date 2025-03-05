@@ -57,9 +57,9 @@
                                         $contact_liens = explode(",", $entite["liensContact"]);
                                 
                                         echo "<tr class='text-center border-b'>";
-                                        echo "<td class='px-6 py-3 text-xl'>";
+                                        echo "<td class='px-6 py-3 text-xl flex items-center justify-center'>";
                                         if (!empty($entite["avatar"])) {
-                                            echo "<img src='" . htmlspecialchars($entite["avatar"]) . "' alt='Avatar'>";
+                                            echo "<img src='../" . htmlspecialchars($entite["avatar"]) . "' class='h-12 w-12 object-center' alt='Avatar'>";
                                         } else {
                                             echo "<i class='fa-solid fa-user-ninja'></i>";
                                         }
