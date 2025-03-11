@@ -13,6 +13,7 @@
     }
     $liste_entrees_menu = [ //initie les liens de navigation avec un tableau multidimensionnel stockant des tableaux associatifs
         ["lien" => ".././projects", "nom" => "PROJETS", "clef" => "projects"],
+        ["lien" => ".././medias", "nom" => "MÉDIAS", "clef" => "medias"],
         ["lien" => ".././categories/", "nom" => "CATÉGORIES", "clef" => "categories"],
         ["lien" => ".././collaborators/", "nom" => "COLLABORATEURS", "clef" => "collaborators"],
         ["lien" => ".././socials/", "nom" => "RÉSEAUX SOCIAUX", "clef" => "reseaux"],
