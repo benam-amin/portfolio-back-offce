@@ -24,22 +24,24 @@ $page_courante = "medias";
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             // Vérification de la connexion à la base de données
-            if (!isset($connexion_bdd)) {
+            if (!$connexion_bdd) {
                 die("Erreur : Connexion à la base de données non établie.");
             }
+            
 
             // Vérification que les champs obligatoires sont remplis
             if (!empty($_POST["titre"]) && !empty($_POST["label"]) && !empty($_POST["categorie"])) {
                 
                 // Récupération et nettoyage des données du formulaire
-                $titre = htmlentities($_POST["titre"]);
-                $label = htmlentities($_POST["label"]);
-                $alt = htmlentities($_POST["alt"]);
-                $categorie = htmlentities($_POST["categories"]);
+                $titre = mysqli_real_escape_string($connexion_bdd, $_POST["titre"]);
+                $label = mysqli_real_escape_string($connexion_bdd, $_POST["label"]);
+                $alt = mysqli_real_escape_string($connexion_bdd, $_POST["alt"]);
+                $categorie = mysqli_real_escape_string($connexion_bdd, $_POST["categorie"]);
+
 
                 // Gestion de l'upload de l'avatar
                 if (!empty($_FILES["medias"]["name"])) { // Vérifie si un fichier est bien envoyé
-                    $uploadResult = uploadImage("medias");
+                    $uploadResult = uploadImage("medias", $categorie);
                     
                     if (isset($uploadResult["error"])) {
                         $error_msg_medias = $uploadResult["error"];
@@ -50,15 +52,15 @@ $page_courante = "medias";
 
                 // Préparation de la requête d'insertion sécurisée
                 $requete = "INSERT INTO medias (titre, label, idCategories, lien, alt) VALUES (?, ?, ?, ?, ?)";
-                
+                var_dump($_POST, $mediasPath);
                 if ($stmt = $connexion_bdd->prepare($requete)) {
                     // Liaison des paramètres avec les valeurs
                     $stmt->bind_param("sssss", $titre, $label, $categorie, $mediasPath, $alt );
                     
                     // Exécution de la requête
                     if ($stmt->execute()) {
-                        // Redirection en cas de succès
-                        header("Location: ./");
+                        echo "<p class='text-green-500 text-lg font-semibold'>Média ajouté avec succès !</p>
+                        <a href='./' class='rounded-md bg-gray-600 py-2 px-4 text-lg font-medium text-white shadow-sm hover:bg-gray-700'>Retour</a>";
                         exit();
                     } else {
                         $error_msg = "Erreur lors de l'ajout du media.";
@@ -101,12 +103,12 @@ $page_courante = "medias";
                         </div>
                         <div>
                             <label for="categories" class="block text-lg font-medium text-gray-700">Liste des catégories</label>
-                            <select name="categories" id="categories">
+                            <select name="categorie" id="categories">
                             <?php 
                                 while ($listeCategorie = mysqli_fetch_assoc($resultatCategories)) {
                                     ?>
                                     <option value="<?php echo $listeCategorie['id'];?>"><?php echo $listeCategorie['nom']?></option>
-                                <?}        
+                                <?php }        
                             ?>
                             </select>
                         </div>

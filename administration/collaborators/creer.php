@@ -39,7 +39,7 @@ $page_courante = "collaborators";
 
                 // Gestion de l'upload de l'avatar
                 if (!empty($_FILES["collaborators"]["name"])) { // Vérifie si un fichier est bien envoyé
-                    $uploadResult = uploadImage("collaborators");
+                    $uploadResult = uploadImage("collaborators", "collaborators");
                     
                     if (isset($uploadResult["error"])) {
                         $error_msg_collaborators = $uploadResult["error"];
