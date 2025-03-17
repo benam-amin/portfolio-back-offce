@@ -23,13 +23,15 @@ function uploadImage($inputName, $categorie, $uploadDir = '../upload/', $allowed
 
     // Création du dossier s'il n'existe pas
     if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0777, true); // Crée le dossier avec les permissions nécessaires
+        if (!mkdir($uploadDir, 0777, true)) {
+            return ["error" => "Impossible de créer le dossier d'upload."];
+        }
     }
 
     // Génération d'un nom unique pour le fichier
     $newFileName = date('YmdHis') . "_" . $fileName;
     $filePath = $uploadDir . $newFileName;
-    $filePathDatabase = "upload/media/" . $categorie . "/" . $newFileName;
+    $filePathDatabase = "upload/medias/" . $categorie . "/" . $newFileName;
 
     // Déplacement du fichier vers le répertoire d'upload
     if (move_uploaded_file($file["tmp_name"], $filePath)) {

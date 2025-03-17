@@ -38,8 +38,8 @@ $page_courante = "collaborators";
                 $liens = isset($_POST["liens"]) ? implode(',', array_map('trim', explode(',', $_POST["liens"]))) : '';
 
                 // Gestion de l'upload de l'avatar
-                if (!empty($_FILES["collaborators"]["name"])) { // Vérifie si un fichier est bien envoyé
-                    $uploadResult = uploadImage("collaborators", "collaborators");
+                if (!empty($_FILES["medias"]["name"])) { // Vérifie si un fichier est bien envoyé
+                    $uploadResult = uploadImage("medias","collaborators");
                     
                     if (isset($uploadResult["error"])) {
                         $error_msg_collaborators = $uploadResult["error"];

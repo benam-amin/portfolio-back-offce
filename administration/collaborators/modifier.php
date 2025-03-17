@@ -1,4 +1,4 @@
-<?php $page_courante = "reseaux"; ?>
+<?php $page_courante = "collaboators"; ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>

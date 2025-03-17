@@ -1,29 +1,6 @@
 <?php 
 $page_courante = "medias";
-require_once('../header-admin.php'); // Récupération du header
-require_once('../assets/fonctionBdd/delete.php'); // Fonction pour valider la suppression
 
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0; // Vérifie si l'ID est défini, sinon le définit à 0
-$formulaire_soumis = !empty($_POST);
-
-if ($id > 0) { // On ne fait ceci que si l'ID est valide
-    $resultat_affiche = genererRequeteEtResultat("medias", $id, $connexion_bdd);
-    $entite = mysqli_fetch_assoc($resultat_affiche);
-
-    if ($formulaire_soumis && $entite) { // Vérifie si l'entrée existe bien
-        $chemin_fichier = "../" . $entite["lien"]; // Chemin du fichier à supprimer
-
-        // Suppression de l'entrée dans la base de données
-        deleteFromTable($connexion_bdd, 'medias', $id);
-
-        // Suppression du fichier du serveur
-        if (file_exists($chemin_fichier)) {
-            unlink($chemin_fichier);
-        }
-
-        $success = messageConfirmationSuppression();
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -36,6 +13,30 @@ if ($id > 0) { // On ne fait ceci que si l'ID est valide
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="bg-gray-100 text-gray-900">
+    <?php 
+        require_once('../header-admin.php'); // Récupération du header
+        require_once('../assets/fonctionBdd/delete.php'); // Fonction pour valider la suppression
+        
+        $id = isset($_GET['id']) ? intval($_GET['id']) : 0; // Vérifie si l'ID est défini, sinon le définit à 0
+        $formulaire_soumis = !empty($_POST);
+        
+        if ($id > 0) { // On ne fait ceci que si l'ID est valide
+            $resultat_affiche = genererRequeteEtResultat("medias", $id, $connexion_bdd);
+            $entite = mysqli_fetch_assoc($resultat_affiche);
+        
+            if ($formulaire_soumis && $entite) { // Vérifie si l'entrée existe bien
+                $chemin_fichier = "../" . $entite["lien"]; // Chemin du fichier à supprimer
+        
+                // Suppression de l'entrée dans la base de données
+                deleteFromTable($connexion_bdd, 'medias', $id);
+        
+                // Suppression du fichier du serveur
+                if (file_exists($chemin_fichier)) {
+                    unlink($chemin_fichier);
+                }
+            }
+        }
+    ?>
 <main class="mx-auto max-w-3xl py-12 rounded-lg">
     <?php if ($entite) { ?>
         <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">
@@ -43,9 +44,6 @@ if ($id > 0) { // On ne fait ceci que si l'ID est valide
         </h1>
         
         <div class="bg-gray-50 p-6 rounded-md shadow-md">
-            <?php 
-                echo !empty($success) ? $success : '' ;
-            ?>
             <table class="w-full border-collapse mb-6">
                 <thead>
                     <tr class="bg-gray-800 text-white">
