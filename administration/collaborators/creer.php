@@ -14,6 +14,7 @@ $page_courante = "collaborators";
     <?php
         require_once('../header-admin.php'); // Récupération du header et de la connexion à la BDD
         require_once('../assets/fonctionBdd/addMedia.php');
+        require_once('../assets/fonctionBdd/addCollaborator.php');
 
         $error_msg_collaborators = "";
         $collaboratorsPath = null; // Initialisation de l'avatar
@@ -57,31 +58,9 @@ $page_courante = "collaborators";
                     "collaboratorsPath" => $collaboratorsPath,
                     "categorieId" => $categorieId
                 ]);
-                if (addMedia($connexion_bdd, $titre, $titre, $categorieId, $collaboratorsPath, $titre) == "success") {
-                } else {
-                    $error_msg = "Erreur lors de la préparation de la requête.";
-                }
-                var_dump($titre);
-
-                // Préparation de la requête d'insertion sécurisée
-                $requete = "INSERT INTO collaborators (nom, prenom, contactListe, liensContact, avatar) VALUES (?, ?, ?, ?, ?)";
-                
-                if ($stmt = $connexion_bdd->prepare($requete)) {
-                    // Liaison des paramètres avec les valeurs
-                    $stmt->bind_param("sssss", $nom, $prenom, $contactListe, $liens, $collaboratorsPath);
-                    
-                    // Exécution de la requête
-                    if ($stmt->execute()) {
-                        // Redirection en cas de succès
-                        header("Location: ./");
-                        var_dump($_POST, $collaboratorsPath);
+                if (addMedia($connexion_bdd, $titre, $titre, $categorieId, $collaboratorsPath, $titre) == "success" && addCollaborator($connexion_bdd,$nom, $prenom, $contactListe, $liens, $collaboratorsPath) == "success") {
+                    header("Location: ./");
                         exit();
-                    } else {
-                        $error_msg = "Erreur lors de l'ajout du collaborateur.";
-                    }
-
-                    // Fermeture de la requête préparée
-                    $stmt->close();
                 } else {
                     $error_msg = "Erreur lors de la préparation de la requête.";
                 }

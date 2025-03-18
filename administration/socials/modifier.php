@@ -12,16 +12,7 @@
     <?php 
         require_once('../header-admin.php'); //récupération du header
 
-        $formulaire_soumis = (!empty($_POST)); //variable stockant un bool => permet de savoir si le formulaire est soumis
-        $entree_mise_a_jour = array_key_exists('id', $_GET); // permet de voir s'il y a un id qui est passé dans l'url  
-        $entite = null; //initialise la variable à null pour éviter les erreurs
-        $error_msg = ""; //initialise le msg dans une chaîne vide dans le cas où il n'y a pas d'erreur
-
-        if ($entree_mise_a_jour) { //s'il y a bien un id à modifier
-            $id = mysqli_real_escape_string($connexion_bdd, $_GET["id"]); //se protège des injections sql
-            $resultat_affiche = genererRequeteEtResultat("reseaux", $id, $connexion_bdd); //récupère la requête est le résultat d'affichage
-            $entite = mysqli_fetch_assoc($resultat_affiche); //stock le retour dans la variable entité
-        }
+        require_once('../assets/fonctionBdd/editInit.php'); //récupère les vérifications, les requêtes et l'id de l'élément à modifier
 
         if ($formulaire_soumis) { 
             if (!empty($_POST["nom"]) && !empty($_POST["lien"]) && !empty($_POST["classIcon"]) && isset($_POST["visibilite"])) { //vérification de l'entrée des input du formulaire
