@@ -13,6 +13,7 @@ $page_courante = "collaborators";
 <body class="bg-gray-100 text-gray-900">
     <?php
         require_once('../header-admin.php'); // Récupération du header et de la connexion à la BDD
+        require_once('../assets/fonctionBdd/addMedia.php');
 
         $error_msg_collaborators = "";
         $collaboratorsPath = null; // Initialisation de l'avatar
@@ -39,7 +40,7 @@ $page_courante = "collaborators";
 
                 // Gestion de l'upload de l'avatar
                 if (!empty($_FILES["medias"]["name"])) { // Vérifie si un fichier est bien envoyé
-                    $uploadResult = uploadImage("medias","collaborators");
+                    $uploadResult = uploadImage("medias","collaborateur");
                     
                     if (isset($uploadResult["error"])) {
                         $error_msg_collaborators = $uploadResult["error"];
@@ -47,6 +48,20 @@ $page_courante = "collaborators";
                         $collaboratorsPath = $uploadResult["success"]; // Stockage du chemin dans la BDD
                     }
                 }
+                $categorieId = 12; //id de la catégorie collaborateur dans la base de données
+                $titre = "Avatar de {$nom} {$prenom}"; 
+                var_dump([
+                    "nom" => $nom,
+                    "prenom" => $prenom,
+                    "titre" => $titre,
+                    "collaboratorsPath" => $collaboratorsPath,
+                    "categorieId" => $categorieId
+                ]);
+                if (addMedia($connexion_bdd, $titre, $titre, $categorieId, $collaboratorsPath, $titre) == "success") {
+                } else {
+                    $error_msg = "Erreur lors de la préparation de la requête.";
+                }
+                var_dump($titre);
 
                 // Préparation de la requête d'insertion sécurisée
                 $requete = "INSERT INTO collaborators (nom, prenom, contactListe, liensContact, avatar) VALUES (?, ?, ?, ?, ?)";
@@ -59,6 +74,7 @@ $page_courante = "collaborators";
                     if ($stmt->execute()) {
                         // Redirection en cas de succès
                         header("Location: ./");
+                        var_dump($_POST, $collaboratorsPath);
                         exit();
                     } else {
                         $error_msg = "Erreur lors de l'ajout du collaborateur.";
@@ -107,7 +123,7 @@ $page_courante = "collaborators";
                         
                         <!-- Upload de l'image -->
                         <div>
-                            <?php inputUpload("Photo du Collaborateur", "collaborators", $collaboratorsPath, $error_msg_collaborators); ?>
+                            <?php inputUpload("Photo du Collaborateur", "medias", $collaboratorsPath, $error_msg_collaborators); ?>
                             <?php if (!empty($error_msg_collaborators)) { ?>
                                 <p class='text-red-500 text-sm mt-2'><?php echo $error_msg_collaborators; ?></p>
                             <?php } ?>

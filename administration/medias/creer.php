@@ -14,6 +14,7 @@ $page_courante = "medias";
     <?php
         require_once('../header-admin.php'); // Récupération du header et de la connexion à la BDD
         require_once('../assets/fonctionBdd/getCategoriesName.php');
+        require_once('../assets/fonctionBdd/addMedia.php');
 
         $error_msg_medias = "";
         $mediasPath = null; // Initialisation de l'avatar
@@ -55,27 +56,11 @@ $page_courante = "medias";
                 }
 
                 // Préparation de la requête d'insertion sécurisée
-                $requete = "INSERT INTO medias (titre, label, idCategories, lien, alt) VALUES (?, ?, ?, ?, ?)";
-                var_dump($_POST, $mediasPath);
-
-                if ($stmt = $connexion_bdd->prepare($requete)) {
-                    // Liaison des paramètres avec les valeurs
-                    $stmt->bind_param("sssss", $titre, $label, $categorieId, $mediasPath, $alt);
-
-                    // Exécution de la requête
-                    if ($stmt->execute()) {
-                        echo "<p class='text-green-500 text-lg font-semibold'>Média ajouté avec succès !</p> <a href='./' class='text-red-500'>Retour</a></div>";
-                        exit();
-                    } else {
-                        $error_msg = "Erreur lors de l'ajout du media.";
-                        echo "<p class='text-red-500 text-sm mt-2'>Erreur : " . $error_msg . "</p>";
-                    }
-
-                    // Fermeture de la requête préparée
-                    $stmt->close();
+                if (addMedia($connexion_bdd, $titre, $titre, $categorieId, $collaboratorsPath, $titre) == "success") {
+                    header("Location: ./");
+                    exit();
                 } else {
                     $error_msg = "Erreur lors de la préparation de la requête.";
-                    echo "<p class='text-red-500 text-sm mt-2'>Erreur : " . $error_msg . "</p>";
                 }
 
             } else {
