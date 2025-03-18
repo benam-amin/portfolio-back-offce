@@ -11,7 +11,10 @@
 <body class="bg-gray-100 text-gray-900">
 
     <!-- Header -->
-    <?php require_once('../header-admin.php'); //récupération du header ?>
+    <?php require_once('../header-admin.php'); //récupération du header 
+        require_once('../assets/genererColonnesTable.php'); 
+        $colonnes = array("Id", "Nom", "Description");
+    ?>
 
     <!-- Section principale -->
     <section class="py-12 px-6">
@@ -27,14 +30,7 @@
             <!-- Tableau des projets -->
             <div class="overflow-x-auto">
                 <table class="min-w-full bg-white shadow-md rounded-lg border">
-                    <thead>
-                        <tr class="bg-gray-800 text-white">
-                            <th class="px-6 py-3 border">Id</th>
-                            <th class="px-6 py-3 border">Nom</th>
-                            <th class="px-6 py-3 border">Description</th>
-                            <th class="px-6 py-3 border">Actions</th>
-                        </tr>
-                    </thead>
+                <?php genererColonnesTableau($colonnes); ?>
                     <tbody>
                         <?php
                         if(mysqli_num_rows($resultat)> 0) { //la variable résultat se trouve dans le fichier requete.php
