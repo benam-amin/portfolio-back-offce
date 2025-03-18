@@ -4,7 +4,7 @@ require_once('../header-admin.php'); // Récupération du header et de la connex
 require_once('../assets/fonctionBdd/delete.php');
 require_once('../assets/fonctionBdd/filtre.php'); // Filtre et vérification de sécurité
 require_once('../assets/genererColonnesTable.php');
-        $colonnes = array("Image", "Titre", "Label", "Catégorie", "Lien", "Alt");
+        $colonne = array("Image", "Titre", "Label", "Catégorie", "Lien", "Alt");
 
 // Récupérer les paramètres de filtrage
 $categorie_filtre = isset($_GET['categorie']) ? mysqli_real_escape_string($connexion_bdd, $_GET['categorie']) : '';
@@ -59,7 +59,7 @@ $resultat = fetchFilteredData($connexion_bdd, 'medias', $colonnes, 'categories.i
             <!-- Tableau des médias -->
             <div class="overflow-x-auto">
                 <table class="min-w-full bg-white shadow-md rounded-lg border">
-                    <?php genererColonnesTableau($colonnes); ?>
+                    <?php genererColonnesTableau($colonne); ?>
                     <tbody>
                         <?php if (mysqli_num_rows($resultat) > 0) {
                             while ($entite = mysqli_fetch_assoc($resultat)) { ?>

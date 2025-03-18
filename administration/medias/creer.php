@@ -56,7 +56,7 @@ $page_courante = "medias";
                 }
 
                 // Préparation de la requête d'insertion sécurisée
-                if (addMedia($connexion_bdd, $titre, $titre, $categorieId, $collaboratorsPath, $titre) == "success") {
+                if (addMedia($connexion_bdd, $titre, $label, $categorieId, $mediasPath, $alt) == "success") {
                     header("Location: ./");
                     exit();
                 } else {
