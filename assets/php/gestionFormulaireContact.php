@@ -1,5 +1,5 @@
 <?php 
-    function contactEnvoiMail($connexion_bdd,$nom, $prenom, $email, $contenu, $objet, $copy){
+    function contactEnvoiMail($connexion_bdd,$nom, $prenom, $email, $objet, $contenu, $copy){
         if (empty($prenom) || empty($nom) || empty($email) || empty($objet) || empty($contenu)){
             return ["error" => "Veuillez remplir tous les champs obligatoires."];
         }

@@ -3442,9 +3442,10 @@ input, select, textarea {
 	}
 
 	body.landing #header {
-		background: transparent;
-		box-shadow: none;
-		position: absolute;
+		/* Supprime ces propriétés pour qu'il reste fixe */
+		background: rgba(39, 40, 51, 0.965); /* Rétablit le fond */
+		box-shadow: 0 0 0.25em 0 rgba(0, 0, 0, 0.25); /* Rétablit l'ombre */
+		position: fixed; /* Assure qu'il reste toujours en haut */
 	}
 
 /* Banner */
@@ -3520,7 +3521,7 @@ input, select, textarea {
 			}
 
 				#banner .content .image img {
-					border-radius: 100%;
+					/* border-radius: 100%; */
 					display: block;
 					width: 100%;
 				}

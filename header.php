@@ -1,6 +1,7 @@
 <?php
     require_once('assets/php/connexion_bdd.php');
 	require_once('assets/php/navigation.php');
+	require_once('assets/php/afficherOutils.php')
 ?>
 
 <header id="header">
