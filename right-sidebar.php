@@ -85,7 +85,7 @@
 		</div>
 
 		<!-- Scripts -->
-		<?php require_once('assets/php/scripts.php'); ?>
+		 <?php require_once('assets/scripts.php'); ?>
 
 	</body>
 </html>

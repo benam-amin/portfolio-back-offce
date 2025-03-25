@@ -19,6 +19,16 @@
 			<!-- Header -->
 			<?php 
 				require_once('header.php');
+				require_once('assets/php/gestionFormulaireContact.php');
+				$formulaire_soumis = !empty($_POST);
+				$errMsg;
+				$successMsg;
+				if ($formulaire_soumis) {
+					$copyChecked = isset($_POST["copy"]) ? true : false;
+					$envoiResultat = contactEnvoiMail($connexion_bdd, $_POST["nom"], $_POST["prenom"], $_POST["email"], $_POST["objet"], $_POST["message"], $copyChecked);
+					isset($envoiResultat["success"]) ? $successMsg = $envoiResultat["success"] : $errMsg = $envoiResultat["error"];
+
+				} 
 			?>
 
 			<!-- Main -->
@@ -31,32 +41,43 @@
 
 						<!-- Content -->
 						<section>
-								<h3>Form</h3>
 								<form method="post" action="#">
 									<div class="row gtr-uniform gtr-50">
-										<div class="col-6 col-12-xsmall">
-											<input type="text" name="name" id="name" value="" placeholder="Name" />
+										<div class="col-12 col-12-xsmall">
+											<?php
+												if (!empty($errMsg)) {
+													echo "<span style='font-size: 1.5em; color: red;'>$errMsg";
+												} else if (!empty($successMsg)) {
+													echo "<span style='font-size: 1.5em; color: green;'>$successMsg";
+												} 
+											?>
 										</div>
 										<div class="col-6 col-12-xsmall">
+											<input type="text" name="nom" id="nom" value="" placeholder="Nom" />
+										</div>
+										<div class="col-6 col-12-xsmall">
+											<input type="text" name="prenom" id="prenom" value="" placeholder="Prénom" />
+										</div>
+										<div class="col-12 col-12-xsmall">
 											<input type="email" name="email" id="email" value="" placeholder="Email" />
 										</div>
-										<div class="col-6 col-12-medium">
-											<input type="checkbox" id="copy" name="copy">
-											<label for="copy">Email me a copy of this message</label>
-										</div>
-										<div class="col-6 col-12-medium">
-											<input type="checkbox" id="human" name="human" checked>
-											<label for="human">I am a human and not a robot</label>
+										<div class="col-12 col-12-xsmall">
+											<input type="text" name="objet" id="objet" value="" placeholder="Objet du message" />
 										</div>
 										<div class="col-12">
 											<textarea name="message" id="message" placeholder="Enter your message" rows="6"></textarea>
 										</div>
+										<div class="col-6 col-12-medium">
+											<input type="checkbox" id="copy" name="copy">
+											<label for="copy">Recevoir une copie du message par mail</label>
+										</div>
 										<div class="col-12">
 											<ul class="actions">
-												<li><input type="submit" value="Send Message" class="primary" /></li>
-												<li><input type="reset" value="Reset" /></li>
+												<li><input type="submit" value="Envoyer" class="primary" /></li>
+												<li><input type="reset" value="Annuler" /></li>
 											</ul>
 										</div>
+										
 									</div>
 								</form>
 							</section>
