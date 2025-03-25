@@ -7,12 +7,11 @@
             return ["error" => "Veuillez entrer un email valide"];
         }
         else{
-            if (!envoicontenuBdd($connexion_bdd, $nom, $prenom, $email, $objet ,$contenu)) {
-                return ["error" => "Erreur lors de l'envoi "];
-            }
+            $envoiBddResult = envoicontenuBdd($connexion_bdd, $nom, $prenom, $email, $objet ,$contenu);
+            if (isset($envoiBddResult["error"])){  return ["error" => "Erreur lors de l'envoi du message"];} 
             
             $envoi = "benamaouche.amin@gmail.com";
-            $sujet = "[$categorie] $nom $prenom";
+            $sujet = "[$objet] $nom $prenom";
             $headers = "Reply-To: $email" . "\r\n" .
             "FROM: $nom $prenom <$email>" . "\r\n" .
             "cc:$email";
@@ -30,7 +29,7 @@
     
         // Préparer la requête SQL pour éviter les injections SQL
         $requete_preparee = $connexion_bdd->prepare("
-            INSERT INTO contenu (nom, prenom, email, objet, contenu, dateEnvoi) 
+            INSERT INTO message (nom, prenom, mail, objet, contenu, dateEnvoi) 
             VALUES (?, ?, ?, ?, ?, ?)
         ");
     
