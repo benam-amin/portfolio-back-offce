@@ -29,7 +29,7 @@
 							<p>Ipsum dolor feugiat aliquam tempus sed magna lorem consequat accumsan</p>
 						</header>
 						<div class="row gtr-150">
-							<div class="col-8 col-12-medium imp-medium">
+							<div class="col-10 col-12-medium imp-medium">
 
 								<!-- Content -->
 									<section id="content">
@@ -65,8 +65,8 @@
 		<!-- Scripts -->
 		<?php require_once('assets/php/scripts.php'); ?>>
 		<script>
-			function openModal(projetId) {
-				fetch('projects/projet.php?id=' + projetId)
+			function openModal(projetId) { //fonction pour ouvrir la modale
+				fetch('projects/projet.php?id=' + projetId) //récupère le fichier et permet de l'afficher en tant que modale
 					.then(response => response.text())
 					.then(data => {
 						const modal = document.getElementById("customModal");
