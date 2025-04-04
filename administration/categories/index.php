@@ -24,31 +24,38 @@
             <div class="flex justify-end mb-4">
                 <a href="creer.php"
                     class="rounded-md py-2 px-4 text-base font-semibold text-white bg-gray-800 shadow-md hover:bg-gray-400 flex items-center gap-2">
-                    <i class="fas fa-plus"></i> Ajouter un nouveau collaborateurs !
+                    <i class="fas fa-plus"></i> Ajouter une nouvelle catégorie !
                 </a>
             </div>
             <!-- Tableau des projets -->
             <div class="overflow-x-auto">
                 <table class="min-w-full bg-white shadow-md rounded-lg border">
                 <?php genererColonnesTableau($colonnes); ?>
-                    <tbody>
-                        <?php
-                        if(mysqli_num_rows($resultat)> 0) { //la variable résultat se trouve dans le fichier requete.php
-                            while($entite = mysqli_fetch_assoc($resultat)) {//on utilise la variable $entite afin de stocker le tableau associatif retourné par mysqli_fetch_assoc
-                                //affichage du contenu de la table
+                <tbody>
+                    <?php
+                        if(mysqli_num_rows($resultat) > 0) {
+                            while($entite = mysqli_fetch_assoc($resultat)) { // Stockage du tableau associatif
                                 echo "<tr class='text-center border-b'>"; 
-                                echo "<td class='px-6 py-3'>{$entite["id"]}</td>";
-                                echo "<td class='px-6 py-3'>{$entite["nom"]}</td>";
-                                echo "<td class='px-6 py-3'>{$entite["description"]}</td>";
+                                echo "<td class='px-6 py-3'>{$entite['id']}</td>";
+                                echo "<td class='px-6 py-3'>{$entite['nom']}</td>";
+                                echo "<td class='px-6 py-3'>{$entite['description']}</td>";
                                 echo "<td class='px-6 py-3'>
-                                        <a href='".genererLienModif($entite["id"])."'><button class='bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700'><i class='fas fa-edit'></i></button></a>
-                                        <a href='".genererLienSupprimer($entite["id"])."'><button class='bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700'><i class='fas fa-trash'></i></button></a>
-                                      </td>";
+                                        <a href='" . genererLienModif($entite['id']) . "'>
+                                            <button class='bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700'>
+                                                <i class='fas fa-edit'></i>
+                                            </button>
+                                        </a>
+                                        <button onclick=\"confirmerSuppression({$entite['id']}, '" . htmlspecialchars('categories') . "')\" 
+                                            class='bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700'>
+                                            <i class='fas fa-trash'></i>
+                                        </button>
+                                    </td>";
                                 echo "</tr>";
                             }
                         }
-                        ?>
-                    </tbody>
+                    ?>
+                </tbody>
+
                 </table>
             </div>
         </div>

@@ -33,27 +33,35 @@
             <div class="overflow-x-auto">
                 <table class="min-w-full bg-white shadow-md rounded-lg border">
                 <?php genererColonnesTableau($colonnes); ?>
-                    <tbody>
-                        <?php
-                            if(mysqli_num_rows($resultat)> 0) {
-                                while($entite = mysqli_fetch_assoc($resultat)) {//on utilise la variable $entite afin de stocker le tableau associatif retourné par mysqli_fetch_assoc
-                                    //affichage du contenu de la table
-                                    echo "<tr class='text-center border-b'>";
-                                    echo "<td class='px-6 py-3 text-xl'><i class='fa-brands fa-{$entite["classIcon"]}'></i></td>"; 
-                                    echo "<td class='px-6 py-3'>{$entite["nom"]}</td>";
-                                    echo "<td class='px-6 py-3'>{$entite["lien"]}</td>";
-                                    echo "<td class='px-6 py-3'>{$entite["classIcon"]}</td>";
-                                    visibiliteAffichage($entite);
-                                    echo "<td class='px-6 py-3'>
-                                            <a href='".genererLienModif($entite["id"])."'><button class='bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700'><i class='fas fa-edit'></i></button></a>
-                                            <a href='".genererLienSupprimer($entite["id"])."'><button class='bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700'><i class='fas fa-trash'></i></button></a>
-                                          </td>";
-                                    echo "</tr>";
-                                }
+                <tbody>
+                    <?php
+                        if(mysqli_num_rows($resultat) > 0) {
+                            while($entite = mysqli_fetch_assoc($resultat)) {
+                                echo "<tr class='text-center border-b'>";
+                                echo "<td class='px-6 py-3 text-xl'><i class='fa-brands fa-{$entite["classIcon"]}'></i></td>";
+                                echo "<td class='px-6 py-3'>{$entite["nom"]}</td>";
+                                echo "<td class='px-6 py-3'>{$entite["lien"]}</td>";
+                                echo "<td class='px-6 py-3'>{$entite["classIcon"]}</td>";
+                                visibiliteAffichage($entite);
+                                ?>
+                                <td class='px-6 py-3'>
+                                    <a href='<?php echo genererLienModif($entite["id"]); ?>'>
+                                        <button class='bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700'>
+                                            <i class='fas fa-edit'></i>
+                                        </button>
+                                    </a>
+                                    <button onclick="confirmerSuppression(<?php echo $entite['id']; ?>, 'reseaux')"
+                                        class='bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700'>
+                                        <i class='fas fa-trash'></i>
+                                    </button>
+                                </td>
+                                </tr>
+                                <?php
                             }
-                            
-                        ?>
-                    </tbody>
+                        }
+                    ?>
+                </tbody>
+
                 </table>
             </div>
         </div>

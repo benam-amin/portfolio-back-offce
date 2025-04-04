@@ -1,7 +1,6 @@
 <?php
 $page_courante = "medias";
 require_once('../header-admin.php'); // Récupération du header et de la connexion à la BDD
-require_once('../assets/fonctionBdd/delete.php');
 require_once('../assets/fonctionBdd/filtre.php'); // Filtre et vérification de sécurité
 require_once('../assets/genererColonnesTable.php');
         $colonne = array("Image", "Titre", "Label", "Catégorie", "Lien", "Alt");
@@ -80,10 +79,11 @@ $resultat = fetchFilteredData($connexion_bdd, 'medias', $colonnes, 'categories.i
                                         <a href="modifier.php?id=<?php echo $entite["id"]; ?>" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <button onclick="confirmerSuppression(<?php echo $entite['id']; ?>)"
-                                            class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                        <button onclick="confirmerSuppression(<?php echo $entite['id']; ?>, 'medias')"
+                                                class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+
 
                                     </td>
                                 </tr>
@@ -101,5 +101,6 @@ $resultat = fetchFilteredData($connexion_bdd, 'medias', $colonnes, 'categories.i
 
     <!-- Footer -->
     <?php require_once('../footer-admin.php'); ?>
+    <script src="../assets/fonctionBdd/delete.js"></script>
 </body>
 </html>

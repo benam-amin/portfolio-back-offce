@@ -6,3 +6,5 @@
     </ul>
     <? mysqli_close($connexion_bdd); // Fermeture de la connexion ?>
 </footer>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="../assets/fonctionBdd/delete.js"></script>
