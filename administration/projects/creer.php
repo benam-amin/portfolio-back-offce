@@ -26,7 +26,7 @@ if ($formulaire_soumis) {
     $outils = mysqli_real_escape_string($connexion_bdd, $_POST['outils']);
     $video = mysqli_real_escape_string($connexion_bdd, $_POST['video']);
     $categorie = mysqli_real_escape_string($connexion_bdd, $_POST['categorie']);
-    $date_creation = mysqli_real_escape_string($connexion_bdd, $_POST['date_creation']); // Date de création récupérée
+    $date = mysqli_real_escape_string($connexion_bdd, $_POST['date']); // Date de création récupérée
     $collaborateurs_selected = $_POST['collaborateurs'] ?? []; // Récupère les collaborateurs sélectionnés (s'ils existent)
     $categorieNom = getCategoriesName($connexion_bdd, $categorie); // Récupère le nom de la catégorie
 
@@ -45,8 +45,8 @@ if ($formulaire_soumis) {
     }
 
     // Insertion des données dans la table "projects" de la base de données
-    $requete_insert = "INSERT INTO projects (titre, chapo, description, outils, video, idCategories, lienMedia, date_creation) 
-                       VALUES ('$titre', '$chapo', '$description', '$outils', '$video', '$categorie', '$mediasPath', '$date_creation')";
+    $requete_insert = "INSERT INTO projects (titre, chapo, description, outils, video, idCategories, lienMedia, date) 
+                       VALUES ('$titre', '$chapo', '$description', '$outils', '$video', '$categorie', '$mediasPath', '$date')";
     $resultat_insert = mysqli_query($connexion_bdd, $requete_insert);
 
     // Si l'insertion est réussie
@@ -64,13 +64,10 @@ if ($formulaire_soumis) {
         }
 
         // Si tout est bon, redirige vers la page d'index
-        if (addMedia($connexion_bdd, $titre, $chapo, $categorie, $mediasPath, $chapo) == "success") {
-            header("Location: ./"); // Redirection vers la page principale des projets
-            exit(); // Arrête l'exécution du script après la redirection
-        } else {
-            // Message d'erreur si la préparation de la requête échoue
-            $error_msg = "Erreur lors de la préparation de la requête.";
-        }
+        if ($mediasPath) { addMedia($connexion_bdd, $titre, $chapo, $categorie, $mediasPath, $chapo) ;}
+         
+        header("Location: ./"); // Redirection vers la page principale des projets
+        exit(); // Arrête l'exécution du script après la redirection
     } else {
         // Message d'erreur si l'insertion du projet échoue
         $error_msg = "Erreur lors de la création du projet.";
@@ -147,8 +144,14 @@ if ($formulaire_soumis) {
 
                     <!-- Champ pour la date de création du projet -->
                     <div class="mb-4">
-                        <label for="date_creation" class="block text-lg font-medium text-gray-700">Date de création</label>
-                        <input type="date" id="date_creation" name="date_creation" class="w-full px-4 py-2 border rounded-md" required>
+                        <label for="date" class="block text-lg font-medium text-gray-700">Date de création</label>
+                        <input type="date" id="date" name="date" class="w-full px-4 py-2 border rounded-md" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-lg font-medium text-gray-700">Média existant</label>
+                        <div id="mediaExistant" class="grid grid-cols-3 gap-4">
+                            <!-- Médias chargés par JS -->
+                        </div>
                     </div>
 
                     <!-- Champ pour télécharger une image liée au projet -->
@@ -189,6 +192,7 @@ if ($formulaire_soumis) {
     <!-- Inclusion du footer -->
     <?php require_once('../footer-admin.php'); ?>
     <script src="../assets/dragDrop.js"></script>
+    <script src="../assets/displayMediasByCategories.js"></script>
 
 </body>
 </html> 

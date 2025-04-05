@@ -54,7 +54,7 @@ $resultat = fetchFilteredData($connexion_bdd, 'medias', $colonnes, 'categories.i
                                 <tr class="text-center border-b">
                                     <td class="px-6 py-3">
                                         <?php if (!empty($entite["lien"])) { ?>
-                                            <img src="../<?php echo htmlspecialchars($entite["lien"]); ?>" class="h-12 w-12 object-cover mx-auto" alt="<?php echo htmlspecialchars($entite["alt"]); ?>">
+                                            <img src="../<?php echo htmlspecialchars(stripslashes($entite["lien"])); ?>" class="h-12 w-12 object-cover mx-auto" alt="<?php echo htmlspecialchars($entite["alt"]); ?>">
                                         <?php } else { ?>
                                             <i class="fa-solid fa-image text-gray-400 text-2xl"></i>
                                         <?php } ?>
@@ -68,7 +68,7 @@ $resultat = fetchFilteredData($connexion_bdd, 'medias', $colonnes, 'categories.i
                                         <a href="modifier.php?id=<?php echo $entite["id"]; ?>" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <button onclick="confirmerSuppression(<?php echo $entite['id']; ?>)"
+                                        <button onclick="confirmerSuppression(<?php echo $entite['id']; ?>,'medias')"
                                             class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700">
                                         <i class="fas fa-trash"></i>
                                     </button>

@@ -2,7 +2,7 @@
 $page_courante = "projects";
 require_once('../header-admin.php'); 
 require_once('../assets/genererColonnesTable.php');
-require_once('../assets/fonctionBdd/filtre.php'); // Importation de la fonction
+require_once('../assets/fonctionBdd/filtre.php'); // Importation de la fonction fetchFilteredData
 
 $colonnes = array("Image", "Titre", "Chapo", "Collaborateurs", "Date", "Catégories", "Description", "Outils", "Lien Vidéo");
 
@@ -51,7 +51,7 @@ $resultat = fetchFilteredData($connexion_bdd, 'projects', $colonnesBDD, 'categor
                 <!-- Bouton vers la page d'upload -->
                 <a href="creer.php"
                     class="rounded-md py-2 px-4 text-base font-semibold text-white bg-gray-800 shadow-md hover:bg-gray-700 flex items-center gap-2">
-                    <i class="fas fa-plus"></i> Upload d'un nouveau média
+                    <i class="fas fa-plus"></i> Ajout d'un nouveau projet
                 </a>
             </div>
 
@@ -83,13 +83,13 @@ $resultat = fetchFilteredData($connexion_bdd, 'projects', $colonnesBDD, 'categor
                                             <a href="modifier.php?id=<?php echo $entite["id"]; ?>" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <button onclick="confirmerSuppression(<?php echo $entite['id']; ?>)"
+                                            <button onclick="confirmerSuppression(<?php echo $entite['id']; ?>,'projects' )"
                                                 class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
                                     </tr>
-                                    <?php 
+                                    <?php
                                 }
                             } else { ?>
                                 <tr>

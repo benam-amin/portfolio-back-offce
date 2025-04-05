@@ -4,6 +4,8 @@ require_once('../header-admin.php');
 require_once('../assets/fonctionBdd/getCategoriesName.php');
 require_once('../assets/fonctionBdd/deplacerMedia.php');
 require_once('../assets/fonctionBdd/addMedia.php');
+require_once('../assets/fonctionBdd/filtre.php'); // Importation de la fonction fetchFilteredData
+
 $formulaire_soumis = (!empty($_POST)); // Variable indiquant si le formulaire a été soumis 
 $entite = null; 
 $mediasPath = null;
@@ -12,18 +14,34 @@ $error_msg_medias = null;
 // Vérification si un ID de projet a été passé dans l'URL
 if (isset($_GET['id'])) {
     $id = mysqli_real_escape_string($connexion_bdd, $_GET['id']);
-
-    // Récupération des données du projet
-    $requete = "SELECT projects.*, GROUP_CONCAT(collaborators.nom SEPARATOR ', ') AS collaborateurs, categories.nom AS categorie 
-                FROM projects 
-                LEFT JOIN categories ON projects.idCategories = categories.id 
-                LEFT JOIN project_collaborators AS pc ON projects.id = pc.project_id 
-                LEFT JOIN collaborators ON pc.collaborator_id = collaborators.id 
-                WHERE projects.id = $id";
-    $resultat = mysqli_query($connexion_bdd, $requete);
+    // Colonnes à récupérer depuis la base de données
+    $colonnesBDD = [
+        'projects.id', 
+        'projects.titre', 
+        'projects.chapo', 
+        'projects.date', 
+        'projects.lienMedia',
+        'projects.video',
+        'projects.description',
+        'projects.outils',
+        'projects.idCategories',
+        'categories.nom AS categorie',
+        'GROUP_CONCAT(COALESCE(collaborators.nom, "Aucun collaborateur") SEPARATOR ", ") AS collaborateurs' // Agrégation des collaborateurs
+    ];
+    // Ajout de la table des collaborateurs dans la requête de récupération des données
+    $resultat = fetchFilteredData($connexion_bdd, 'projects', $colonnesBDD, '', '', $id);
 
     if ($resultat && mysqli_num_rows($resultat) > 0) {
         $entite = mysqli_fetch_assoc($resultat);
+        
+        // Récupérer les collaborateurs associés à ce projet
+        $collaborateurs_associés = [];
+        $collaborateurs_query = "SELECT collaborator_id FROM project_collaborators WHERE project_id = $id";
+        $collaborateurs_result = mysqli_query($connexion_bdd, $collaborateurs_query);
+
+        while ($row = mysqli_fetch_assoc($collaborateurs_result)) {
+            $collaborateurs_associés[] = $row['collaborator_id'];
+        }
     } else {
         // Si le projet n'existe pas
         header("Location: index.php");
@@ -39,52 +57,53 @@ if (isset($_GET['id'])) {
 $collaborateurs_resultat = mysqli_query($connexion_bdd, "SELECT id, nom, prenom FROM collaborators");
 $requeteCategories = "SELECT id, nom FROM categories";
 $resultatCategories = mysqli_query($connexion_bdd, $requeteCategories);
+$mediaLien = mysqli_real_escape_string($connexion_bdd, $entite["lienMedia"]);
+$requeteMedia = "SELECT id FROM medias WHERE lien = '$mediaLien'";
+$resultatMedia = mysqli_query($connexion_bdd, $requeteMedia);
+$media = mysqli_fetch_assoc($resultatMedia);
 
 // Traitement du formulaire de modification
 if ($formulaire_soumis) {
-    $titre = mysqli_real_escape_string($connexion_bdd, $_POST['titre']);
-    $chapo = mysqli_real_escape_string($connexion_bdd, $_POST['chapo']);
-    $description = mysqli_real_escape_string($connexion_bdd, $_POST['description']);
-    $outils = mysqli_real_escape_string($connexion_bdd, $_POST['outils']);
-    $video = mysqli_real_escape_string($connexion_bdd, $_POST['video']);
-    $categorie = mysqli_real_escape_string($connexion_bdd, $_POST['categorie']);
-    $collaborateurs_selected = $_POST['collaborateurs'] ?? []; // Récupère les collaborateurs sélectionnés
-    $categorieNom = getCategoriesName($connexion_bdd, $categorie);
-
-    // Gestion de l'upload de l'image du projet
-    $mediasPath = mysqli_real_escape_string($connexion_bdd, $_POST['lienMedia']);
-    if (!empty($_FILES["medias"]["name"])) { 
-        $uploadResult = uploadImage("medias", $categorieNom);
-
-        if (isset($uploadResult["error"])) {
-            $error_msg_medias = $uploadResult["error"];
-        } elseif (isset($uploadResult["success"])) {
-            $mediasPath = $uploadResult["success"];
-            $mediasPath = mysqli_real_escape_string($connexion_bdd, $mediasPath); // Échapper le chemin du fichier
-        }
-        if ($mediasPath == mysqli_real_escape_string($connexion_bdd, $_POST['lienMedia'])) {
-            $requete_media = "SELECT id FROM medias WHERE lien = '$mediasPath'";
-            $resultat_media = mysqli_query($connexion_bdd, $requete_media);
-            $mediaId = mysqli_fetch_assoc( $resultat_media);
-            $error_msg = moveMediaFile($mediasPath, $categorieNom, $mediaId["id"], $connexion_bdd);
-        }
+    //récupération des variables nécessaires
+    require_once('../assets/initProjectsInsert.php');
+    
+    // Vérification et déplacement du média si la catégorie a changé
+    if (isset($entite["idCategories"]) && $entite["idCategories"] != $categorie) {
+        moveMediaFile($mediaLien, $categorie, $media["id"], $connexion_bdd);
     }
 
+    // Vérification s'il y a un fichier uploadé
+    if (isset($_FILES['media']) && $_FILES['media']['error'] == UPLOAD_ERR_OK) {
+        // Le fichier a été uploadé, nous devons gérer l'upload
+        $mediasPath = uploadMedia($_FILES['media'], $categorie);
+    }
+
+    // S'assurer que $mediasPath est bien échappé pour les caractères spéciaux
+    $mediasPath = mysqli_real_escape_string($connexion_bdd, $mediasPath);
+    
+        // Si $mediasPath a été modifié, mettre à jour le lien dans la table medias
+    if ($mediasPath || $categorie != $entite["idCategories"]) {
+        if ($mediasPath != null) { $updateMedia = "UPDATE medias SET lien = '$mediasPath', idCategories = '$categorie' WHERE lien = '$mediaLien'"; }
+        else {$updateMedia = "UPDATE medias SET lien = '$mediaLien', idCategories = '$categorie' WHERE lien = '$mediaLien'";}
+            mysqli_query($connexion_bdd, $updateMedia);
+        }
     // Mise à jour du projet dans la base de données
     $requete_update = "UPDATE projects SET 
                         titre = '$titre', 
                         chapo = '$chapo', 
-                        description = '$description', 
+                        description = '$description',
+                        date = '$date', 
                         outils = '$outils',
                         video = '$video', 
-                        idCategories = '$categorie'";
+                        idCategories = '$categorie'" . 
+                        ($mediasPath ? ", lienMedia = '$mediasPath'" : "") . 
+                        " WHERE id = $id";
 
-    if ($mediasPath) {
-        $requete_update .= ", lienMedia = '$mediasPath'"; // Ajout du chemin de l'image si elle existe
-    }
-
-    $requete_update .= " WHERE id = $id";
+    // Exécution de la mise à jour du projet
     $resultat_update = mysqli_query($connexion_bdd, $requete_update);
+
+
+    
 
     if ($resultat_update) {
         // Supprimer les anciennes relations avec les collaborateurs
@@ -98,12 +117,9 @@ if ($formulaire_soumis) {
             }
         }
 
-        if (addMedia($connexion_bdd, $titre, $chapo, $categorie, $mediasPath, $chapo) == "success") {
-            header("Location: ./");
-            exit();
-        } else {
-            $error_msg = "Erreur lors de la préparation de la requête.";
-        }
+        // Rediriger après l'update
+        header("Location: ./");
+        exit();
     } else {
         $error_msg = "Erreur lors de la mise à jour du projet.";
     }
@@ -162,12 +178,16 @@ if ($formulaire_soumis) {
                         <label for="categorie" class="block text-lg font-medium text-gray-700">Catégorie</label>
                         <select name="categorie" id="categorie" class="w-full px-4 py-2 border rounded-md">
                             <?php
-                            // Récupérer les catégories
                             while ($categorie_item = mysqli_fetch_assoc($resultatCategories)) {
                                 echo "<option value='" . $categorie_item['id'] . "' " . ($entite['idCategories'] == $categorie_item['id'] ? 'selected' : '') . ">" . htmlspecialchars($categorie_item['nom']) . "</option>";
                             }
                             ?>
                         </select>
+                    </div>
+                     <!-- Champ pour la date de création du projet -->
+                     <div class="mb-4">
+                        <label for="date" class="block text-lg font-medium text-gray-700">Date de création</label>
+                        <input type="date" id="date" name="date" value="<?php echo htmlspecialchars($entite['date']); ?>" class="w-full px-4 py-2 border rounded-md">
                     </div>
 
                     <!-- Visualisation de l'image actuelle -->
@@ -177,6 +197,12 @@ if ($formulaire_soumis) {
                             <img src="../<?php echo htmlspecialchars($entite['lienMedia']); ?>" alt="Image actuelle du projet" class="w-full h-auto rounded-md mb-4">
                         </div>
                     <?php } ?>
+                    <div class="mb-4">
+                        <label id="mediaExistantLabel" class="block text-lg font-medium text-gray-700">Média existant</label>
+                        <div id="mediaExistant" class="grid grid-cols-3 gap-4">
+                            <!-- Médias chargés par JS -->
+                        </div>
+                    </div>
 
                     <!-- Upload de l'image -->
                     <div class="mb-4">
@@ -190,34 +216,29 @@ if ($formulaire_soumis) {
                     <!-- Collaborateurs -->
                     <div class="mb-4">
                         <label class="block text-lg font-medium text-gray-700">Collaborateurs</label>
-                        <div class="space-y-2">
-                            <?php 
-                            // Si la colonne 'collaborateurs' est null ou vide, on la remplace par une chaîne vide.
-                            $collaborateurs_array = $entite['collaborateurs'] ? explode(",", $entite['collaborateurs']) : [];
-                            
-                            while ($collaborateur = mysqli_fetch_assoc($collaborateurs_resultat)) { ?>
-                                <label class="inline-flex items-center">
+                        <div class="grid grid-cols-2 gap-4">
+                            <?php while ($collaborateur = mysqli_fetch_assoc($collaborateurs_resultat)) { ?>
+                                <div class="flex items-center">
                                     <input type="checkbox" name="collaborateurs[]" value="<?php echo $collaborateur['id']; ?>" 
-                                        <?php echo (in_array($collaborateur['id'], $collaborateurs_array)) ? 'checked' : ''; ?> 
-                                        class="form-checkbox text-blue-600">
-                                    <span class="ml-2"><?php echo htmlspecialchars($collaborateur['nom']); ?></span>
-                                </label>
+                                        <?php echo in_array($collaborateur['id'], $collaborateurs_associés) ? 'checked' : ''; ?> 
+                                    >
+                                    <span class="ml-2"><?php echo htmlspecialchars($collaborateur['nom']) . " " . htmlspecialchars($collaborateur['prenom']); ?></span>
+                                </div>
                             <?php } ?>
                         </div>
                     </div>
 
-                    <div class="flex justify-between">
-                        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-md">Modifier</button>
-                        <a href="index.php" class="bg-gray-600 text-white px-6 py-2 rounded-md">Retour</a>
-                    </div>
+                    <div class="flex gap-4">
+                            <button type="submit" class="rounded-md bg-blue-500 py-2 px-4 text-lg font-medium text-white shadow-sm hover:bg-blue-700">Modifier</button>
+                            <a href="./" class="rounded-md bg-gray-600 py-2 px-4 text-lg font-medium text-white shadow-sm hover:bg-gray-700">Retour</a>
+                        </div>
                 </form>
             </div>
         </div>
     </section>
-
-    <!-- Footer -->
     <?php require_once('../footer-admin.php'); ?>
     <script src="../assets/dragDrop.js"></script>
+    <script src="../assets/displayMediasByCategories.js"></script>
 
 </body>
 </html>
