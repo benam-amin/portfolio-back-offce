@@ -21,10 +21,11 @@ if (isset($_GET['id'])) {
         'projects.chapo', 
         'projects.date', 
         'projects.lienMedia',
+        'projects.lienProjet',
         'projects.video',
         'projects.description',
+        'projects.visibilite',
         'projects.outils',
-        'projects.idCategories',
         'categories.nom AS categorie',
         'GROUP_CONCAT(COALESCE(collaborators.nom, "Aucun collaborateur") SEPARATOR ", ") AS collaborateurs' // Agrégation des collaborateurs
     ];
@@ -95,6 +96,8 @@ if ($formulaire_soumis) {
                         date = '$date', 
                         outils = '$outils',
                         video = '$video', 
+                        lienProjet = '$lienProjet', 
+                        visibilite = '$visibilite', 
                         idCategories = '$categorie'" . 
                         ($mediasPath ? ", lienMedia = '$mediasPath'" : "") . 
                         " WHERE id = $id";
@@ -173,6 +176,10 @@ if ($formulaire_soumis) {
                         <label for="video" class="block text-lg font-medium text-gray-700">Vidéo</label>
                         <input type="text" id="video" name="video" value="<?php echo htmlspecialchars($entite['video']); ?>" class="w-full px-4 py-2 border rounded-md">
                     </div>
+                    <div class="mb-4">
+                        <label for="lienProjet" class="block text-lg font-medium text-gray-700">Lien du projet</label>
+                        <input type="text" id="lienProjet" name="lienProjet" value="<?php echo $entite['lienProjet']; ?>" class="w-full px-4 py-2 border rounded-md">
+                    </div>
 
                     <div class="mb-4">
                         <label for="categorie" class="block text-lg font-medium text-gray-700">Catégorie</label>
@@ -227,6 +234,8 @@ if ($formulaire_soumis) {
                             <?php } ?>
                         </div>
                     </div>
+                    <!-- Section des boutons radio pour la visibilité -->
+                    <?php visibiliteInput($entite['visibilite']);?>
 
                     <div class="flex gap-4">
                             <button type="submit" class="rounded-md bg-blue-500 py-2 px-4 text-lg font-medium text-white shadow-sm hover:bg-blue-700">Modifier</button>

@@ -19,34 +19,11 @@ $resultatCategories = mysqli_query($connexion_bdd, $requeteCategories);
 
 // Traitement du formulaire si soumis
 if ($formulaire_soumis) {
-    // Sécurisation et récupération des données envoyées via le formulaire
-    $titre = mysqli_real_escape_string($connexion_bdd, $_POST['titre']);
-    $chapo = mysqli_real_escape_string($connexion_bdd, $_POST['chapo']);
-    $description = mysqli_real_escape_string($connexion_bdd, $_POST['description']);
-    $outils = mysqli_real_escape_string($connexion_bdd, $_POST['outils']);
-    $video = mysqli_real_escape_string($connexion_bdd, $_POST['video']);
-    $categorie = mysqli_real_escape_string($connexion_bdd, $_POST['categorie']);
-    $date = mysqli_real_escape_string($connexion_bdd, $_POST['date']); // Date de création récupérée
-    $collaborateurs_selected = $_POST['collaborateurs'] ?? []; // Récupère les collaborateurs sélectionnés (s'ils existent)
-    $categorieNom = getCategoriesName($connexion_bdd, $categorie); // Récupère le nom de la catégorie
-
-    // Gestion de l'upload de l'image du projet
-    if (!empty($_FILES["medias"]["name"])) { 
-        // Appel à la fonction uploadImage pour gérer l'upload
-        $uploadResult = uploadImage("medias", $categorieNom);
-
-        // Vérifie s'il y a une erreur ou une réussite dans l'upload
-        if (isset($uploadResult["error"])) {
-            $error_msg_medias = $uploadResult["error"]; // Enregistre l'erreur dans la variable
-        } elseif (isset($uploadResult["success"])) {
-            $mediasPath = $uploadResult["success"]; // Enregistre le chemin du média téléchargé
-            $mediasPath = mysqli_real_escape_string($connexion_bdd, $mediasPath); // Sécurisation du chemin
-        }
-    }
+    require_once('../assets/initProjectsInsert.php');
 
     // Insertion des données dans la table "projects" de la base de données
-    $requete_insert = "INSERT INTO projects (titre, chapo, description, outils, video, idCategories, lienMedia, date) 
-                       VALUES ('$titre', '$chapo', '$description', '$outils', '$video', '$categorie', '$mediasPath', '$date')";
+    $requete_insert = "INSERT INTO projects (titre, chapo, description, outils, video, lienProjet, idCategories, lienMedia, date, visibilite) 
+                       VALUES ('$titre', '$chapo', '$description', '$outils', '$video', '$lienProjet', '$categorie', '$mediasPath', '$date', '$visibilite')";
     $resultat_insert = mysqli_query($connexion_bdd, $requete_insert);
 
     // Si l'insertion est réussie
@@ -128,6 +105,11 @@ if ($formulaire_soumis) {
                         <label for="video" class="block text-lg font-medium text-gray-700">Vidéo</label>
                         <input type="text" id="video" name="video" class="w-full px-4 py-2 border rounded-md">
                     </div>
+                    <!-- Champ pour l'URL du lien du projet -->
+                    <div class="mb-4">
+                        <label for="lienProjet" class="block text-lg font-medium text-gray-700">Lien du projet</label>
+                        <input type="text" id="lienProjet" name="lienProjet" class="w-full px-4 py-2 border rounded-md">
+                    </div>
 
                     <!-- Liste déroulante pour choisir la catégorie du projet -->
                     <div class="mb-4">
@@ -178,6 +160,8 @@ if ($formulaire_soumis) {
                             <?php } ?>
                         </div>
                     </div>
+                    <!-- Section des boutons radio pour la visibilité -->
+                    <?php visibiliteInput();?>
 
                     <!-- Boutons pour soumettre ou revenir -->
                     <div class="flex justify-between">

@@ -39,18 +39,9 @@
                         <?php
                             if(mysqli_num_rows($resultat) > 0) {
                                 // Fonction d'affichage des icônes des liens
-                                function afficherIconesLiens($contact, $contact_liens) {
-                                    for ($i = 0; $i < count($contact); $i++) {
-                                        if (!empty($contact_liens[$i])) {
-                                            $icone = ($contact[$i] == "portfolio") ? "fa-solid fa-globe" : "fa-brands fa-{$contact[$i]}";
-                                            echo "<a class='text-2xl' href='" . htmlspecialchars($contact_liens[$i]) . "' target='_blank'><i class='$icone'></i></a> ";
-                                        }
-                                    }
-                                }
+                                require_once('../../assets/php/iconesContactsCollaborateur.php');
 
                                 while ($entite = mysqli_fetch_assoc($resultat)) { // Stockage du tableau associatif
-                                    $contact = explode(",", $entite["contactListe"]);
-                                    $contact_liens = explode(",", $entite["liensContact"]);
                                     
                                     echo "<tr class='text-center border-b'>";
                                     
@@ -69,7 +60,7 @@
                                     
                                     // Icônes des liens
                                     echo "<td class='px-6 py-3'>";
-                                    afficherIconesLiens($contact, $contact_liens);
+                                    afficherIconesLiens($entite["contactListe"], $entite["liensContact"]);
                                     echo "</td>";
                                     
                                     // Boutons Modifier et Supprimer avec confirmation

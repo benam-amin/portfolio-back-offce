@@ -42,7 +42,7 @@
                                 echo "<td class='px-6 py-3'>{$entite["ancre"]}</td>";
                                 echo "<td class='px-6 py-3'>{$entite["contenu"]}</td>";
 
-                                visibiliteAffichage($entite);
+                                visibiliteAffichage($entite, $page_courante);
 
                                 echo "<td class='px-6 py-3'>
                                         <a href='" . genererLienModif($entite["id"]) . "'>
@@ -69,7 +69,8 @@
 
 
     <!-- Footer -->
-    <?php require_once('../footer-admin.php'); //récupération du header ?>
+    <?php require_once('../footer-admin.php'); //récupération du footer ?>
+    <script src="../assets/toggleVisibility.js"></script>
 
 </body>
 </html>

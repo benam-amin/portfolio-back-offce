@@ -51,13 +51,13 @@ $page_courante = "collaborators";
                 }
                 $categorieId = 12; //id de la catégorie collaborateur dans la base de données
                 $titre = "Avatar de {$nom} {$prenom}"; 
-                var_dump([
-                    "nom" => $nom,
-                    "prenom" => $prenom,
-                    "titre" => $titre,
-                    "collaboratorsPath" => $collaboratorsPath,
-                    "categorieId" => $categorieId
-                ]);
+                // var_dump([
+                //     "nom" => $nom,
+                //     "prenom" => $prenom,
+                //     "titre" => $titre,
+                //     "collaboratorsPath" => $collaboratorsPath,
+                //     "categorieId" => $categorieId
+                // ]);
                 if (addMedia($connexion_bdd, $titre, $titre, $categorieId, $collaboratorsPath, $titre) == "success" && addCollaborator($connexion_bdd,$nom, $prenom, $contactListe, $liens, $collaboratorsPath) == "success") {
                     header("Location: ./");
                         exit();

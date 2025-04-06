@@ -3961,7 +3961,7 @@ input, select, textarea {
 				height: 100%;
 				left: 0;
 				overflow-y: auto;
-				position: fixed;
+				position: inherit;
 				top: 0;
 				width: 275px;
 				z-index: 10002;

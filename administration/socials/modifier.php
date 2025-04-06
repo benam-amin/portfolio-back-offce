@@ -58,20 +58,8 @@
                                     class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800">
                             </div>
                             
-                            <!-- Ajout des boutons radio pour la visibilité -->
-                            <div>
-                                <label class="block text-lg font-medium text-gray-700">Visibilité</label>
-                                <div class="mt-2 flex gap-4">
-                                    <label class="inline-flex items-center">
-                                        <input type="radio" name="visibilite" value="1" <?php echo ($entite['visibilite'] == 1) ? 'checked' : ''; ?> class="form-radio text-blue-600">
-                                        <span class="ml-2">Visible</span>
-                                    </label>
-                                    <label class="inline-flex items-center">
-                                        <input type="radio" name="visibilite" value="0" <?php echo ($entite['visibilite'] == 0) ? 'checked' : ''; ?> class="form-radio text-blue-600">
-                                        <span class="ml-2">Masqué</span>
-                                    </label>
-                                </div>
-                            </div>
+                            <!-- Section des boutons radio pour la visibilité -->
+                            <?php visibiliteInput($entite['visibilite']);?>
                             
                             <div class="flex gap-4">
                                 <button type="submit" class="rounded-md py-2 bg-blue-500 py-2 px-4 text-lg font-medium text-white shadow-sm hover:bg-blue-700">Modifier</button>

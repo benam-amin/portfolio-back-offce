@@ -59,10 +59,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $alt = mysqli_real_escape_string($connexion_bdd, $_POST["alt"]);
         $categorieId = mysqli_real_escape_string($connexion_bdd, $_POST["categorie"]);
         $categorieNom = getCategoriesName($connexion_bdd, $categorieId);
-        // Vérifier si la catégorie a changé
-        if (!empty($categorieNom)) {
-            $error_msg = moveMediaFile($mediasPath, $categorieNom, $mediaId, $connexion_bdd);
-        }
 
         // Préparation de la requête d'insertion sécurisée
         $requete = "UPDATE medias SET titre = ?, label = ?, idCategories = ?, alt = ? WHERE id = ?";
@@ -72,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Exécution de la requête
             if ($stmt->execute()) {
-                echo "<p class='text-green-500 text-lg font-semibold'>Média modifié avec succès !</p>  <a href='./' class='text-red-500'>Retour</a></div>";
+                header("Location: ./");
                 exit();
             } else {
                 $error_msg = "Erreur lors de la modification du media.";

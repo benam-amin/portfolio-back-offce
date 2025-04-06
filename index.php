@@ -112,7 +112,7 @@
 				</section>
 
 			<!-- Five -->
-				<section id="five" class="wrapper style2 special fade">
+				<!-- <section id="five" class="wrapper style2 special fade">
 					<div class="container">
 						<header>
 							<h2>Magna faucibus lorem diam</h2>
@@ -125,7 +125,7 @@
 							</div>
 						</form>
 					</div>
-				</section>
+				</section> -->
 
 			<!-- Footer -->
 				<?php 

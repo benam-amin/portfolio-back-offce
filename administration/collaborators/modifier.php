@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modification - Réseaux Sociaux</title>
+    <title>Modification - Collaborateur</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -15,16 +15,39 @@
         require_once('../assets/fonctionBdd/editInit.php'); //récupère les vérifications, les requêtes et l'id de l'élément à modifier
 
         if ($formulaire_soumis) { 
-            if (!empty($_POST["nom"]) && !empty($_POST["lien"]) && !empty($_POST["classIcon"]) && isset($_POST["visibilite"])) { //vérification de l'entrée des input du formulaire
+            if (!empty($_POST["nom"]) && !empty($_POST["prenom"]) && !empty($_POST["contactListe"]) && isset($_POST["visibilite"])) { //vérification de l'entrée des input du formulaire
                 $id = $_GET["id"]; //automatique, n'est pas supposé changer
                 //on récupère les entrées du formulaire dans des variables
                 $nom = htmlentities($_POST["nom"]);
-                $lien = htmlentities($_POST["lien"]);
-                $classIcon = htmlentities($_POST["classIcon"]);
-                $visibilite = (int) $_POST["visibilite"]; // Convertir en entier pour éviter toute injection
+                $prenom = htmlentities($_POST["prenom"]);
+                $contactListe = htmlentities($_POST["contactListe"]);
                 
-                $requete_modif = "UPDATE reseaux SET nom = '$nom', lien = '$lien', classIcon = '$classIcon', visibilite = $visibilite WHERE id = $id;"; //requête de modification
+                // Si un avatar est uploadé
+                $avatar = null;
+                if (!empty($_FILES['avatar']['name'])) {
+                    $avatar = 'path/to/uploads/' . basename($_FILES['avatar']['name']);
+                    move_uploaded_file($_FILES['avatar']['tmp_name'], $avatar);
+                }
+
+                // Mettre à jour les liens de contact
+                $liens = [];
+                if (!empty($_POST['liens_contact'])) {
+                    $liens = $_POST['liens_contact']; // Récupérer les liens de contact
+                }
+
+                // Requête de mise à jour
+                $requete_modif = "UPDATE collaborateurs SET nom = '$nom', prenom = '$prenom', contactListe = '$contactListe', visibilite = $visibilite, avatar = '$avatar' WHERE id = $id;"; //requête de modification
                 $resultat_modif = mysqli_query($connexion_bdd, $requete_modif); //résultat
+                
+                // Ajouter les liens de contact dans la base de données (si nécessaire)
+                if (!empty($liens)) {
+                    foreach ($liens as $lien) {
+                        // Insérer chaque lien dans une table dédiée
+                        $requete_lien = "INSERT INTO liens_contact (collaborateur_id, lien) VALUES ($id, '$lien')";
+                        mysqli_query($connexion_bdd, $requete_lien);
+                    }
+                }
+                
                 //si tout se passe bien, on retourne à la page précédente
                 header("Location: ./"); 
                 exit();
@@ -35,45 +58,52 @@
     ?>
 
     <main class="mx-6 md:mx-20">
-        <?php if ($entite) { //si il y a bel et bien un élément à modifier ?>
+        <?php if ($entite) { //si il y a bel et bien un collaborateur à modifier ?>
             <div class="mx-auto max-w-lg py-12">
-                <h1 class="text-3xl font-bold text-center mb-8">Modification de <?php echo strtoupper($entite['nom']); ?></h1>
+                <h1 class="text-3xl font-bold text-center mb-8">Modification de <?php echo strtoupper($entite['nom']) . ' ' . strtoupper($entite['prenom']); ?></h1>
                 
                 <div class="w-full bg-white rounded-lg shadow-md p-6 border border-gray-200">
-                    <form method="POST" action="">
+                    <form method="POST" action="" enctype="multipart/form-data">
                         <section class="grid gap-6">
                             <div>
-                                <label for="nom" class="block text-lg font-medium text-gray-700">Nom du réseau</label>
+                                <label for="nom" class="block text-lg font-medium text-gray-700">Nom</label>
                                 <input type="text" value="<?= htmlspecialchars($entite['nom']); ?>" name="nom" id="nom" 
                                     class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800">
                             </div>
                             <div>
-                                <label for="lien" class="block text-lg font-medium text-gray-700">Lien du réseau</label>
-                                <input type="text" value="<?= htmlspecialchars($entite['lien']) ; ?>" name="lien" id="lien" 
+                                <label for="prenom" class="block text-lg font-medium text-gray-700">Prénom</label>
+                                <input type="text" value="<?= htmlspecialchars($entite['prenom']); ?>" name="prenom" id="prenom" 
                                     class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800">
                             </div>
                             <div>
-                                <label for="classIcon" class="block text-lg font-medium text-gray-700">Classe de l'icône</label>
-                                <input type="text" value="<?= htmlspecialchars($entite['classIcon']); ?>" name="classIcon" id="classIcon" 
+                                <label for="contactListe" class="block text-lg font-medium text-gray-700">Liste des contacts</label>
+                                <input type="text" value="<?= htmlspecialchars($entite['contactListe']); ?>" name="contactListe" id="contactListe" 
                                     class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800">
                             </div>
-                            
-                            <!-- Ajout des boutons radio pour la visibilité -->
+
                             <div>
-                                <label class="block text-lg font-medium text-gray-700">Visibilité</label>
-                                <div class="mt-2 flex gap-4">
-                                    <label class="inline-flex items-center">
-                                        <input type="radio" name="visibilite" value="1" <?php echo ($entite['visibilite'] == 1) ? 'checked' : ''; ?> class="form-radio text-blue-600">
-                                        <span class="ml-2">Visible</span>
-                                    </label>
-                                    <label class="inline-flex items-center">
-                                        <input type="radio" name="visibilite" value="0" <?php echo ($entite['visibilite'] == 0) ? 'checked' : ''; ?> class="form-radio text-blue-600">
-                                        <span class="ml-2">Masqué</span>
-                                    </label>
+                                <label for="avatar" class="block text-lg font-medium text-gray-700">Avatar (optionnel)</label>
+                                <input type="file" name="avatar" id="avatar" 
+                                    class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800">
+                            </div>
+
+                            <!-- Ajouter des champs pour les liens de contact -->
+                            <div>
+                                <label for="liens_contact" class="block text-lg font-medium text-gray-700">Liens de Contact (ex: réseaux sociaux, email, etc.)</label>
+                                <div class="space-y-2">
+                                    <?php
+                                    // Afficher les liens déjà existants dans la base
+                                    $requete_liens = "SELECT lien FROM liens_contact WHERE collaborateur_id = " . $entite['id'];
+                                    $resultat_liens = mysqli_query($connexion_bdd, $requete_liens);
+                                    while ($lien = mysqli_fetch_assoc($resultat_liens)) {
+                                        echo '<input type="text" name="liens_contact[]" value="' . htmlspecialchars($lien['lien']) . '" class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800">';
+                                    }
+                                    ?>
+                                    <input type="text" name="liens_contact[]" class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800" placeholder="Ajouter un nouveau lien...">
                                 </div>
                             </div>
-                            
-                            <div class="flex gap-4">
+
+                             <div class="flex gap-4">
                                 <button type="submit" class="rounded-md py-2 bg-blue-500 py-2 px-4 text-lg font-medium text-white shadow-sm hover:bg-blue-700">Modifier</button>
                                 <a href="./" class="rounded-md bg-gray-600 py-2 px-4 text-lg font-medium text-white shadow-sm hover:bg-gray-700">Retour</a>
                             </div>
@@ -87,10 +117,10 @@
                     </section>
                 <?php } ?>
             </div>
-    </main>
+        </main>
     <?php 
         } 
-        require_once('../footer-admin.php'); //récupération du header
+        require_once('../footer-admin.php'); //récupération du footer
     ?>
 </body>
 </html>

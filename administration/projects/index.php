@@ -4,7 +4,7 @@ require_once('../header-admin.php');
 require_once('../assets/genererColonnesTable.php');
 require_once('../assets/fonctionBdd/filtre.php'); // Importation de la fonction fetchFilteredData
 
-$colonnes = array("Image", "Titre", "Chapo", "Collaborateurs", "Date", "Catégories", "Description", "Outils", "Lien Vidéo");
+$colonnes = array("Image", "Titre", "Chapo", "Collaborateurs", "Date", "Catégories", "Description", "Outils",  "Lien Vidéo", "Lien du Projet","Visibilité");
 
 // Colonnes à récupérer depuis la base de données
 $colonnesBDD = [
@@ -13,8 +13,10 @@ $colonnesBDD = [
     'projects.chapo', 
     'projects.date', 
     'projects.lienMedia',
+    'projects.lienProjet',
     'projects.video',
     'projects.description',
+    'projects.visibilite',
     'projects.outils',
     'categories.nom AS categorie',
     'GROUP_CONCAT(COALESCE(collaborators.nom, "Aucun collaborateur") SEPARATOR ", ") AS collaborateurs' // Agrégation des collaborateurs
@@ -71,14 +73,16 @@ $resultat = fetchFilteredData($connexion_bdd, 'projects', $colonnesBDD, 'categor
                                                 <!-- Ne rien afficher si l'image n'existe pas ou si l'URL est vide -->
                                             <?php endif; ?>
                                         </td>
-                                        <td class="px-4 py-2 font-semibold"><?php echo htmlspecialchars($entite['titre'] ?? ''); ?></td>
-                                        <td class="px-4 py-2"><?php echo htmlspecialchars($entite['chapo'] ?? ''); ?></td>
-                                        <td class="px-4 py-2"><?php echo htmlspecialchars($entite['collaborateurs'] ?? ''); ?></td>
-                                        <td class="px-4 py-2"><?php echo htmlspecialchars($entite['date'] ?? ''); ?></td>
-                                        <td class="px-4 py-2"><?php echo htmlspecialchars($entite['categorie'] ?? ''); ?></td>
-                                        <td class="px-4 py-2 truncate"><?php echo htmlspecialchars($entite['description'] ?? ''); ?></td>
-                                        <td class="px-4 py-2"><?php echo htmlspecialchars($entite['outils'] ?? ''); ?></td>
-                                        <td class="px-4 py-2"><?php echo htmlspecialchars($entite['video'] ?? ''); ?></td>
+                                        <td class="px-4 py-2 font-semibold"><?php echo htmlspecialchars($entite['titre'] ?? '/'); ?></td>
+                                        <td class="px-4 py-2"><?php echo htmlspecialchars($entite['chapo'] ?? '/'); ?></td>
+                                        <td class="px-4 py-2"><?php echo htmlspecialchars($entite['collaborateurs'] ?? '/'); ?></td>
+                                        <td class="px-4 py-2"><?php echo htmlspecialchars($entite['date'] ?? '/'); ?></td>
+                                        <td class="px-4 py-2"><?php echo htmlspecialchars($entite['categorie'] ?? '/'); ?></td>
+                                        <td class="px-4 py-2 max-w-md truncate"><?php echo htmlspecialchars($entite['description'] ?? '/'); ?></td>
+                                        <td class="px-4 py-2"><?php echo htmlspecialchars($entite['outils'] ?? '/'); ?></td>
+                                        <td class="px-4 py-2"><?php echo htmlspecialchars($entite['video'] ?? '/'); ?></td>
+                                        <td class="px-4 py-2"><?php echo htmlspecialchars($entite['lienProjet'] ?? '/'); ?></td>
+                                        <?php visibiliteAffichage($entite, $page_courante); ?>
                                         <td class="px-6 py-3 flex justify-center gap-2">
                                             <a href="modifier.php?id=<?php echo $entite["id"]; ?>" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700">
                                                 <i class="fas fa-edit"></i>
@@ -106,6 +110,7 @@ $resultat = fetchFilteredData($connexion_bdd, 'projects', $colonnesBDD, 'categor
 
     <!-- Footer -->
     <?php require_once('../footer-admin.php'); ?>
+    <script src="../assets/toggleVisibility.js"></script>
 
 </body>
 </html>

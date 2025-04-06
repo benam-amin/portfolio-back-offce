@@ -1,67 +1,106 @@
-	<!DOCTYPE HTML>
-	<html>
-		<head>
-			<title>Projet </title>
-			<meta charset="utf-8" />
-			<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-			<link rel="stylesheet" href="../assets/css/main.css" />
-			<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
-		</head>
-		<body class="is-preload">
-			<div id="page-wrapper">
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Projet</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<link rel="stylesheet" href="../assets/css/modale.css" />
+		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
 
-				<!-- Header -->
-				<?php 
-				$id = $_GET["id"];
-				require_once('../assets/php/connexion_bdd.php');
-					$requete_affiche = "SELECT * FROM projects WHERE id = '$id'"; // requête pour afficher l'élément
-					$resultat = $connexion_bdd->query($requete_affiche); // exécution de la requête
-				?>
+		<!-- Exemple d'améliorations avec Tailwind CSS (si utilisé) -->
+		<!-- Ajouter les icônes Font Awesome pour les outils -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	</head>
 
-				<!-- Main -->
-				<div id="main" class="wrapper style1">
-						<div class="container">
-							<header class="major">
-								<h2>Projects</h2>
-								<p>Liste des projets récupérés depuis la base de données</p>
-							</header>
+	<body class="is-preload">
 
-							<div class="row gtr-150">
-								<div class="col-8 col-12-medium imp-medium">
-									<!-- Content -->
-									<section id="content">
-										<?php
-										// Vérifier si des projets ont été récupérés
-										if ($resultat->num_rows > 0) {
-											// Afficher chaque projet
-											while($row = $resultat->fetch_assoc()) {
-												echo "<article>";
-												echo "<h3>" . htmlspecialchars($row['titre']) . "</h3>";
-												echo "<p>" . htmlspecialchars($row['chapo']) . "</p>";
-												echo "<p><strong>Description:</strong> " . htmlspecialchars($row['description']) . "</p>";
-												echo "<p><strong>Outils:</strong> " . htmlspecialchars($row['outils']) . "</p>";
-												echo "<p><strong>Date:</strong> " . htmlspecialchars($row['date']) . "</p>";
-												echo "<p><strong>Collaborateur ID:</strong> " . htmlspecialchars($row['idCollaborateur']) . "</p>";
-												echo "<p><strong>Catégorie ID:</strong> " . htmlspecialchars($row['idCategories']) . "</p>";
-												echo "<p><a href='" . htmlspecialchars($row['lienMedia']) . "' target='_blank'>Voir le média</a></p>";
-												echo "</article>";
-											}
-										} else {
-											echo "<p>Aucun projet trouvé.</p>";
-										}
-										?>
-									</section>
-								</div>
+		<?php 
+			$id = isset($_GET["id"]) ? intval($_GET["id"]) : 0;
+
+			require_once('../assets/php/connexion_bdd.php');
+			require_once('../assets/php/transformYtbLink.php');
+			require_once('../administration/assets/fonctionBdd/filtre.php');
+
+			$colonnesBDD = [
+				'projects.id', 
+				'projects.titre', 
+				'projects.chapo', 
+				'projects.date', 
+				'projects.lienMedia',
+				'projects.lienProjet',
+				'projects.video',
+				'projects.description',
+				'projects.visibilite',
+				'projects.outils',
+				'categories.nom AS categorie',
+				'GROUP_CONCAT(COALESCE(collaborators.nom, "Aucun collaborateur") SEPARATOR ", ") AS collaborateurs',
+				'GROUP_CONCAT(COALESCE(collaborators.prenom, "") SEPARATOR ", ") AS prenoms',
+				'GROUP_CONCAT(COALESCE(collaborators.avatar, "") SEPARATOR ", ") AS avatars',
+				'GROUP_CONCAT(COALESCE(collaborators.contactListe, "") SEPARATOR ", ") AS reseaux',
+				'GROUP_CONCAT(COALESCE(collaborators.liensContact, "") SEPARATOR ", ") AS reseauxLien'
+			];
+
+			$projetData = fetchFilteredData($connexion_bdd, 'projects', $colonnesBDD, 'projects.id', $id);
+			$projet = $projetData->fetch_assoc();
+
+			$lienEmbed = !empty($projet['video']) ? transformerLienYoutube($projet['video']) : '';
+			$lienMedia = !empty($projet['lienMedia']) ? htmlspecialchars($projet['lienMedia']) : '';
+		?>
+			<div class="container">
+
+				<!-- Section du projet -->
+				<section id="three" class=" style1 top">
+					<!-- Affichage de l'image -->
+					<span class="fit main bottom">
+					</span>
+
+					<div class="content">
+						<header class="text-center">
+							<h2><?= strtoupper(htmlspecialchars($projet['titre'])) ?></h2>
+							<p><?= nl2br(htmlspecialchars($projet['chapo'])) ?></p>
+						</header>
+						<?php if (!empty($projet['lienMedia'])): ?>
+							<figure class="figure">
+								<img src="administration/<?= str_replace('%20', ' ', urldecode($projet['lienMedia'])) ?>" alt="<?= htmlspecialchars($projet['titre']) ?>"/>
+							</figure>
+							<?php endif; ?>
+						<!-- Affichage des outils sous forme de liste -->
+						<?php if (!empty($projet['outils'])): ?>
+							<div class="icon tools-container list-disc pl-5 text-xl font-bold space-y-2 my-4 bigText">
+								<?php 
+									$outils = explode(',', $projet['outils']);
+									foreach ($outils as $outil): 
+										$outil = trim($outil); // Retirer les espaces
+								?>	
+										<i class="bigText fa-brands fa-<?php echo $outil;?> "></i>
+								<?php endforeach; ?>
 							</div>
-						</div>
+						<?php endif; ?>
+
+						<!-- Description du projet -->
+						<p class="text-lg mb-4"><?= nl2br(htmlspecialchars($projet['description'])) ?></p>
+
+						<!-- Lien vers le projet -->
+						<?php if (!empty($projet['lienProjet'])): ?>
+							<ul class="actions">
+								<li>
+									<a href="<?= htmlspecialchars($projet['lienProjet']) ?>" target="_blank" class="button bg-blue-500 text-white hover:bg-blue-600 px-6 py-3 rounded-lg">Voir Le projet</a>
+								</li>
+							</ul>
+						<?php endif; ?>
 					</div>
 
-				</div>
-
+					<!-- Affichage de la vidéo YouTube -->
+					<?php if (!empty($lienEmbed)): ?>
+						<div class="mb-6">
+							<iframe src="<?= htmlspecialchars($lienEmbed) ?>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+						</div>
+					<?php endif; ?>
+				</section>
 			</div>
 
-			<!-- Scripts -->
-			<?php require_once('../assets/php/scripts.php'); ?>
-
-		</body>
-	</html>
+		<!-- Scripts -->
+		<?php require_once('../assets/php/scripts.php'); ?>
+	</body>
+</html>
