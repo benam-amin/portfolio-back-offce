@@ -4,9 +4,9 @@
 		<title>Projet</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="../assets/css/main.css" />
-		<link rel="stylesheet" href="../assets/css/modale.css" />
-		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/modale.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 
 		<!-- Exemple d'améliorations avec Tailwind CSS (si utilisé) -->
 		<!-- Ajouter les icônes Font Awesome pour les outils -->
@@ -58,7 +58,13 @@
 					<div class="content">
 						<header class="text-center">
 							<h2><?= strtoupper(htmlspecialchars($projet['titre'])) ?></h2>
-							<p><?= nl2br(htmlspecialchars($projet['chapo'])) ?></p>
+							<p><?= nl2br(htmlspecialchars($projet['chapo'])) ?>
+								<?php if (!empty($projet['date'])): ?>
+									<div class="col-8 col-12-small col-10-medium">
+										<p class="align-right"><?php echo $projet['date'];?></p>
+									</div>
+								<?php endif; ?>
+							</p>
 						</header>
 						<?php if (!empty($projet['lienMedia'])): ?>
 							<figure class="figure">
@@ -77,6 +83,7 @@
 								<?php endforeach; ?>
 							</div>
 						<?php endif; ?>
+						
 
 						<!-- Description du projet -->
 						<p class="text-lg mb-4"><?= nl2br(htmlspecialchars($projet['description'])) ?></p>
