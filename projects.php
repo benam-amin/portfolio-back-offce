@@ -66,7 +66,7 @@
 										if ($resultat->num_rows > 0) {
 											while ($entite = $resultat->fetch_assoc()) {
 												if ($entite["visibilite"] == 1) {
-													$image = !empty($entite['lienMedia']) ? 'administration/' . $entite['lienMedia'] : 'images/banner.jpg';
+													$image = !empty($entite['lienMedia']) ?  $entite['lienMedia'] : 'images/banner.jpg';
 													?>
 													<section class="col-4 col-6-medium col-12-xsmall project-box" onclick="openModal(<?= $entite['id']; ?>)">
 														<span class="image fit"><img src="<?= $image ?>" alt="<?= htmlspecialchars($entite['titre']); ?>"></span>

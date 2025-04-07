@@ -123,8 +123,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <p class="text-lg font-semibold mb-2">Aperçu du média :</p>
                             <?php
                                 // Vérifiez si le chemin de l'image et l'alt sont définis
-                                if (isset($entite["lien"])) {
-                                    echo "<img src='../" . htmlspecialchars($entite["lien"], ENT_QUOTES, 'UTF-8') . "' class='max-w-full h-48 mx-auto rounded shadow-md' alt='" . htmlspecialchars($entite["alt"], ENT_QUOTES, 'UTF-8') . "'>";
+                                if (!empty($mediasPath)) {
+                                    echo "<img src='../../" . htmlspecialchars($mediasPath) . "' class='max-w-full h-48 mx-auto rounded shadow-md' alt='" . htmlspecialchars($alt) . "'>";
                                 } else {
                                     echo "<p class='text-red-500'>Aucun média disponible pour l'aperçu.</p>";
                                 }

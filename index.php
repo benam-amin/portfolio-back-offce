@@ -128,11 +128,11 @@
 				</section> -->
 
 			<!-- Footer -->
-				<?php 
-					require_once('footer.php'); //récupération du footer
-				?>
 
 		</div>
+		<?php 
+					require_once('footer.php'); //récupération du footer
+				?>
 
 		<!-- Scripts -->
 		<?php require_once('assets/php/scripts.php'); ?>

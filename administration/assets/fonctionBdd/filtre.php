@@ -12,12 +12,12 @@ function fetchFilteredData($connexion_bdd, $table, $colonnes, $filtreBDD = '', $
             LEFT JOIN project_collaborators ON projects.id = project_collaborators.project_id
             LEFT JOIN collaborators ON project_collaborators.collaborator_id = collaborators.id
             LEFT JOIN categories ON projects.idCategories = categories.id";
-    } elseif ($table === 'categories') {
-        // Pas de jointure pour la table `categories`
-    } else {
-        // Jointure par défaut avec `categories` si la table est autre
+    } elseif ($table === 'medias') {
         $requeteFiltre .= " 
             LEFT JOIN categories ON $table.idCategories = categories.id";
+    } else {
+        // Pas de jointure pour les autres tables 
+        // Jointure par défaut avec `categories` si la table est autre
     }
 
     // Ajouter le filtrage si nécessaire

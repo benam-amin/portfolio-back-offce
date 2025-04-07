@@ -11,7 +11,7 @@ $visibilite = (int) $_POST["visibilite"]; // Visibilité en entier (0 ou 1)
 $date = mysqli_real_escape_string($connexion_bdd, $_POST['date']); // Date de création récupérée
 $collaborateurs_selected = $_POST['collaborateurs'] ?? []; // Récupère les collaborateurs sélectionnés (s'ils existent)
 $categorieNom = getCategoriesName($connexion_bdd, $categorie); // Récupère le nom de la catégorie
-
+$mediasPath ='';
 // Gestion de l'upload de l'image du projet
 if (!empty($_FILES["medias"]["name"])) { 
     // Appel à la fonction uploadImage pour gérer l'upload
@@ -22,7 +22,10 @@ if (!empty($_FILES["medias"]["name"])) {
         $error_msg_medias = $uploadResult["error"]; // Enregistre l'erreur dans la variable
     } elseif (isset($uploadResult["success"])) {
         $mediasPath = $uploadResult["success"]; // Enregistre le chemin du média téléchargé
-        $mediasPath = mysqli_real_escape_string($connexion_bdd, $mediasPath); // Sécurisation du chemin
     }
 }
+if (empty($mediasPath) && !empty($_POST["mediaExistant"])) {
+    $mediasPath =  $_POST["mediaExistant"];
+}
+$mediasPath = mysqli_real_escape_string($connexion_bdd, $mediasPath);
 ?>

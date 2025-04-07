@@ -1,7 +1,7 @@
 <?php 
 function moveMediaFile($mediasPath, $newCategorieId, $mediaId, $connexion_bdd) {
-    $oldPath = "../" . $mediasPath;
-    $newPath = "../upload/medias/" . $newCategorieId . "/" . basename($mediasPath);
+    $oldPath = "../../" . $mediasPath;
+    $newPath = "../../upload/medias/" . $newCategorieId . "/" . basename($mediasPath);
 
     // Créer le nouveau dossier s'il n'existe pas
     $newDir = dirname($newPath);

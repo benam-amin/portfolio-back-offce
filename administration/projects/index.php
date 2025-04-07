@@ -68,7 +68,7 @@ $resultat = fetchFilteredData($connexion_bdd, 'projects', $colonnesBDD, 'categor
                                     <tr class="border-b">
                                         <td class="px-4 py-2">
                                             <?php if (!empty($entite['lienMedia'])): ?>
-                                                <img src="../<?php echo htmlspecialchars($entite['lienMedia']) ?>" alt="Image projet" class="w-16 h-16 rounded-lg">
+                                                <img src="../../<?php echo htmlspecialchars($entite['lienMedia']) ?>" alt="Image projet" class="w-16 h-16 rounded-lg">
                                             <?php else: ?>
                                                 <!-- Ne rien afficher si l'image n'existe pas ou si l'URL est vide -->
                                             <?php endif; ?>

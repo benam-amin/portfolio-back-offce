@@ -118,7 +118,12 @@ if ($formulaire_soumis) {
                             <?php
                             // Récupère et affiche les catégories disponibles
                             while ($categorie_item = mysqli_fetch_assoc($resultatCategories)) {
-                                echo "<option value='" . $categorie_item['id'] . "'>" . htmlspecialchars($categorie_item['nom']) . "</option>";
+                                $categoriesHorsProjets = ["collaborateur", "contenu", "CV"];
+                                if(in_array($categorie_item["nom"], $categoriesHorsProjets)) { 
+
+                                } else {
+                                    echo "<option value='" . $categorie_item['id'] . "'>" . htmlspecialchars($categorie_item['nom']) . "</option>";
+                                }
                             }
                             ?>
                         </select>
@@ -129,21 +134,7 @@ if ($formulaire_soumis) {
                         <label for="date" class="block text-lg font-medium text-gray-700">Date de création</label>
                         <input type="date" id="date" name="date" class="w-full px-4 py-2 border rounded-md" required>
                     </div>
-                    <div class="mb-4">
-                        <label class="block text-lg font-medium text-gray-700">Média existant</label>
-                        <div id="mediaExistant" class="grid grid-cols-3 gap-4">
-                            <!-- Médias chargés par JS -->
-                        </div>
-                    </div>
-
-                    <!-- Champ pour télécharger une image liée au projet -->
-                    <div class="mb-4">
-                        <?php
-                            inputUpload("Image du projet", "medias", $mediasPath, $error_msg_medias); 
-                            if (!empty($error_msg_medias)) { ?>
-                            <p class='text-red-500 text-sm mt-2'><?php echo $error_msg_medias; ?></p>
-                        <?php } ?>
-                    </div>
+                    <?php require_once ('../assets/gestionImage.php'); ?>
 
                     <!-- Sélection des collaborateurs associés au projet -->
                     <div class="mb-4">

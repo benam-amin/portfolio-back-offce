@@ -36,7 +36,7 @@
 				'categories.nom AS categorie',
 				'GROUP_CONCAT(COALESCE(collaborators.nom, "Aucun collaborateur") SEPARATOR ", ") AS collaborateurs',
 				'GROUP_CONCAT(COALESCE(collaborators.prenom, "") SEPARATOR ", ") AS prenoms',
-				'GROUP_CONCAT(COALESCE(collaborators.avatar, "") SEPARATOR ", ") AS avatars',
+				'GROUP_CONCAT(COALESCE(collaborators.lienMedia , "") SEPARATOR ", ") AS avatars',
 				'GROUP_CONCAT(COALESCE(collaborators.contactListe, "") SEPARATOR ", ") AS reseaux',
 				'GROUP_CONCAT(COALESCE(collaborators.liensContact, "") SEPARATOR ", ") AS reseauxLien'
 			];
@@ -68,7 +68,7 @@
 						</header>
 						<?php if (!empty($projet['lienMedia'])): ?>
 							<figure class="figure">
-								<img src="administration/<?= str_replace('%20', ' ', urldecode($projet['lienMedia'])) ?>" alt="<?= htmlspecialchars($projet['titre']) ?>"/>
+								<img src="<?= str_replace('%20', ' ', urldecode($projet['lienMedia'])) ?>" alt="<?= htmlspecialchars($projet['titre']) ?>"/>
 							</figure>
 							<?php endif; ?>
 						<!-- Affichage des outils sous forme de liste -->
@@ -100,9 +100,9 @@
 
 					<!-- Affichage de la vidéo YouTube -->
 					<?php if (!empty($lienEmbed)): ?>
-						<div class="mb-6">
+						<figure class="mb-6 iframeContainer">
 							<iframe src="<?= htmlspecialchars($lienEmbed) ?>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-						</div>
+					</figure>
 					<?php endif; ?>
 				</section>
 			</div>

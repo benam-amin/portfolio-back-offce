@@ -12,10 +12,12 @@
         deconnexion();
     }
     $liste_entrees_menu = [ //initie les liens de navigation avec un tableau multidimensionnel stockant des tableaux associatifs
+        ["lien" => ".././contenu", "nom" => "CONTENU", "clef" => "contenu"],
         ["lien" => ".././projects", "nom" => "PROJETS", "clef" => "projects"],
         ["lien" => ".././medias", "nom" => "MÉDIAS", "clef" => "medias"],
         ["lien" => ".././categories/", "nom" => "CATÉGORIES", "clef" => "categories"],
         ["lien" => ".././collaborators/", "nom" => "COLLABORATEURS", "clef" => "collaborators"],
+        ["lien" => ".././outils/", "nom" => "OUTILS", "clef" => "outils"],
         ["lien" => ".././socials/", "nom" => "RÉSEAUX SOCIAUX", "clef" => "reseaux"],
         ["lien" => ".././navigation/", "nom" => "NAVIGATION", "clef" => "navigation"],
         ["lien" => "../.././", "nom" => "VOIR LE SITE", "clef" => "site"]

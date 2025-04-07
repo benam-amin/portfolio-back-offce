@@ -1,4 +1,3 @@
-
 function openModal(projetId) {
     fetch('projects/projet.php?id=' + projetId)
         .then(response => response.text())
@@ -7,11 +6,16 @@ function openModal(projetId) {
             const modalBody = document.getElementById("modal-body");
             if (!modal || !modalBody) return;
             modalBody.innerHTML = data;
+
+            // Reset scroll position
+            modalBody.scrollTop = 0;
+
             modal.style.display = "flex";
             setTimeout(() => modal.style.opacity = "1", 10);
         })
         .catch(error => console.error('Erreur de chargement:', error));
 }
+
 
 function closeModal() {
     const modal = document.getElementById("customModal");

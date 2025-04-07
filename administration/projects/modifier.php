@@ -1,5 +1,6 @@
 <?php 
 $page_courante = "projects";
+$modifier = true;
 require_once('../header-admin.php'); 
 require_once('../assets/fonctionBdd/getCategoriesName.php');
 require_once('../assets/fonctionBdd/deplacerMedia.php');
@@ -23,6 +24,7 @@ if (isset($_GET['id'])) {
         'projects.lienMedia',
         'projects.lienProjet',
         'projects.video',
+        'projects.idCategories',
         'projects.description',
         'projects.visibilite',
         'projects.outils',
@@ -59,9 +61,9 @@ $collaborateurs_resultat = mysqli_query($connexion_bdd, "SELECT id, nom, prenom 
 $requeteCategories = "SELECT id, nom FROM categories";
 $resultatCategories = mysqli_query($connexion_bdd, $requeteCategories);
 $mediaLien = mysqli_real_escape_string($connexion_bdd, $entite["lienMedia"]);
-$requeteMedia = "SELECT id FROM medias WHERE lien = '$mediaLien'";
-$resultatMedia = mysqli_query($connexion_bdd, $requeteMedia);
-$media = mysqli_fetch_assoc($resultatMedia);
+// $requeteMedia = "SELECT id FROM medias WHERE lien = '$mediaLien'";
+// $resultatMedia = mysqli_query($connexion_bdd, $requeteMedia);
+// $media = mysqli_fetch_assoc($resultatMedia);
 
 // Traitement du formulaire de modification
 if ($formulaire_soumis) {
@@ -69,15 +71,9 @@ if ($formulaire_soumis) {
     require_once('../assets/initProjectsInsert.php');
     
     // Vérification et déplacement du média si la catégorie a changé
-    if (isset($entite["idCategories"]) && $entite["idCategories"] != $categorie) {
-        moveMediaFile($mediaLien, $categorie, $media["id"], $connexion_bdd);
-    }
-
-    // Vérification s'il y a un fichier uploadé
-    if (isset($_FILES['media']) && $_FILES['media']['error'] == UPLOAD_ERR_OK) {
-        // Le fichier a été uploadé, nous devons gérer l'upload
-        $mediasPath = uploadMedia($_FILES['media'], $categorie);
-    }
+    // if (isset($entite["idCategories"]) && $entite["idCategories"] != $categorie) {
+    //     moveMediaFile($mediaLien, $categorie, $media["id"], $connexion_bdd);
+    // }
 
     // S'assurer que $mediasPath est bien échappé pour les caractères spéciaux
     $mediasPath = mysqli_real_escape_string($connexion_bdd, $mediasPath);
@@ -186,7 +182,16 @@ if ($formulaire_soumis) {
                         <select name="categorie" id="categorie" class="w-full px-4 py-2 border rounded-md">
                             <?php
                             while ($categorie_item = mysqli_fetch_assoc($resultatCategories)) {
-                                echo "<option value='" . $categorie_item['id'] . "' " . ($entite['idCategories'] == $categorie_item['id'] ? 'selected' : '') . ">" . htmlspecialchars($categorie_item['nom']) . "</option>";
+                                $categoriesHorsProjets = ["collaborateur", "contenu", "CV"];
+                                if(in_array($categorie_item["nom"], $categoriesHorsProjets)) { 
+
+                                } else {
+                                    echo "<option value='" . $categorie_item['id'] . "'";
+                                if ($entite['idCategories'] === $categorie_item['id']) {
+                                    echo " selected style='background-color: red;'";
+                                }
+                                echo ">" . htmlspecialchars($categorie_item['nom']) . "</option>";
+                                }
                             }
                             ?>
                         </select>
@@ -196,29 +201,8 @@ if ($formulaire_soumis) {
                         <label for="date" class="block text-lg font-medium text-gray-700">Date de création</label>
                         <input type="date" id="date" name="date" value="<?php echo htmlspecialchars($entite['date']); ?>" class="w-full px-4 py-2 border rounded-md">
                     </div>
-
-                    <!-- Visualisation de l'image actuelle -->
-                    <?php if (!empty($entite['lienMedia'])) { ?>
-                        <div class="mb-4">
-                            <label class="block text-lg font-medium text-gray-700">Image actuelle</label>
-                            <img src="../<?php echo htmlspecialchars($entite['lienMedia']); ?>" alt="Image actuelle du projet" class="w-full h-auto rounded-md mb-4">
-                        </div>
-                    <?php } ?>
-                    <div class="mb-4">
-                        <label id="mediaExistantLabel" class="block text-lg font-medium text-gray-700">Média existant</label>
-                        <div id="mediaExistant" class="grid grid-cols-3 gap-4">
-                            <!-- Médias chargés par JS -->
-                        </div>
-                    </div>
-
-                    <!-- Upload de l'image -->
-                    <div class="mb-4">
-                        <?php
-                            inputUpload("Image du projet", "medias", $mediasPath, $error_msg_medias); 
-                            if (!empty($error_msg_medias)) { ?>
-                            <p class='text-red-500 text-sm mt-2'><?php echo $error_msg_medias; ?></p>
-                        <?php } ?>
-                    </div>
+                    <!-- Affichage des images et des zones d'upload -->
+                    <?php require_once ('../assets/gestionImage.php'); ?>
 
                     <!-- Collaborateurs -->
                     <div class="mb-4">

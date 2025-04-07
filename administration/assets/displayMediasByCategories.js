@@ -25,8 +25,8 @@ document.getElementById('categorie').addEventListener('change', function () {
 
                 mediaItem.innerHTML = `
                     <label class="inline-flex items-center space-x-2">
-                        <input type="radio" name="media_existant" value="${media.lien}" class="form-radio text-blue-600">
-                        <img src="../${media.lien}" alt="${media.nom}" class="w-24 h-24 object-cover rounded-md border" />
+                        <input type="radio" name="mediaExistant" value="${media.lien}" class="form-radio text-blue-600">
+                        <img src="../../${media.lien}" alt="${media.nom}" class="w-24 h-24 object-cover rounded-md border" />
                     </label>
                 `;
 
@@ -39,9 +39,21 @@ document.getElementById('categorie').addEventListener('change', function () {
 });
 
 // Déclencher manuellement l'événement de changement de catégorie lors du chargement de la page
-window.addEventListener('DOMContentLoaded', (event) => {
+window.addEventListener('DOMContentLoaded', () => {
     const categorieSelect = document.getElementById('categorie');
+
+    const pageCourante = document.body.dataset.pageCourante;
+    if (pageCourante === 'collaborateur') {
+        for (let i = 0; i < categorieSelect.options.length; i++) {
+            if (categorieSelect.options[i].text.toLowerCase() === 'collaborateur') {
+                categorieSelect.selectedIndex = i;
+                break;
+            }
+        }
+    }
+
     if (categorieSelect.value) {
         categorieSelect.dispatchEvent(new Event('change'));
     }
 });
+
