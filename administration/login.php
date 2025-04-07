@@ -31,7 +31,7 @@ if ($formulaire_soumis) {
             $_SESSION['connected'] = true; //on passe la valeur en true, pour éviter la redirection infinie vers cette page
             $_SESSION['admin'] = $user['admin'] == 1;
 
-            $redirectTo = "projects/index.php"; //on redirige vers la gestion des projets
+            $redirectTo = "contenu/index.php"; //on redirige vers la gestion des projets
             header("Location: $redirectTo");
             exit(); //on s'arrête là
         } else {

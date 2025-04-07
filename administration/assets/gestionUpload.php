@@ -1,15 +1,23 @@
 <?php
-function uploadImage($inputName, $categorie, $uploadDir = '../../upload/', $allowedTypes = ["jpg", "png", "jpeg", "gif", "webp"], $maxSizeMB = 2, $page_courante='') {
+function uploadImage($inputName, $categorie, $page_courante='', $uploadDir = '../../upload/', $allowedTypes = ["jpg", "png", "jpeg", "gif", "webp"], $maxSizeMB = 2) {
     // Vérifie si un fichier a été envoyé et s'il n'y a pas d'erreur
     if (!isset($_FILES[$inputName]) || $_FILES[$inputName]["error"] !== UPLOAD_ERR_OK) {
         return ["error" => "Aucun fichier envoyé ou une erreur est survenue."];
     }
-    if ($page_courante == "contenu") { array_push($allowedTypes, "pdf"); }
-    // Définir le répertoire d'upload
-    $uploadDir = "../../upload/medias/" . $categorie . "/";
+    
     $file = $_FILES[$inputName];
     $fileName = basename($file["name"]);
     $fileType = strtolower(pathinfo($fileName, PATHINFO_EXTENSION)); // Récupère l'extension du fichier
+    
+    if ($page_courante == "contenu") { 
+        array_push($allowedTypes, "pdf");
+        if ($fileType == "pdf") {
+            $categorie = "CV";
+        } 
+    }
+    // Définir le répertoire d'upload
+    $uploadDir = "../../upload/medias/" . $categorie . "/";
+    
 
     // Vérification du type de fichier
     if (!in_array($fileType, $allowedTypes)) {
