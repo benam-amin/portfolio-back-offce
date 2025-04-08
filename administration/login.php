@@ -30,7 +30,7 @@ if ($formulaire_soumis) {
             $_SESSION['user'] = $login; //l'utilisateur devient le login
             $_SESSION['connected'] = true; //on passe la valeur en true, pour éviter la redirection infinie vers cette page
             $_SESSION['admin'] = $user['admin'] == 1;
-            $redirectTo = $_SESSION['redirect_to']; //on redirige vers la page demandée
+            $redirectTo = $_SESSION['redirect_to'] ?? 'contenu/index.php' ; //on redirige vers la page demandée
             header("Location: $redirectTo");
             exit(); //on s'arrête là
         } else {
