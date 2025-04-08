@@ -44,16 +44,16 @@
                                     echo "<tr class='text-center border-b'>";
                                     
                                     // Section
-                                    echo "<td class='px-6 py-3'>" . htmlspecialchars($entite["section"]) . "</td>";
+                                    echo "<td class='px-6 py-3'>" . $entite["section"] . "</td>";
                                     
                                     // Titre
-                                    echo "<td class='px-6 py-3'>" . htmlspecialchars($entite["titre"]) . "</td>";
+                                    echo "<td class='px-6 py-3'>" . $entite["titre"] . "</td>";
                                     
                                     // Sous-titre
-                                    echo "<td class='px-6 py-3'>" . htmlspecialchars($entite["sousTitre"]) . "</td>";
+                                    echo "<td class='px-6 py-3'>" . $entite["sousTitre"] . "</td>";
                                     
                                     // Description
-                                    echo "<td class='px-6 py-3'>" . nl2br(htmlspecialchars($entite["description"])) . "</td>";
+                                    echo "<td class='px-6 py-3'>" . nl2br($entite["description"]) . "</td>";
                                     
                                     // Lien vers le média
                                     echo "<td class='px-6 py-3'>";

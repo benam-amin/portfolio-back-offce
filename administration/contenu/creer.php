@@ -14,6 +14,7 @@ $page_courante = "contenu";
     <?php
         require_once('../header-admin.php');
         require_once('../assets/fonctionBdd/addMedia.php');
+        require_once('../assets/fonctionBdd/addContenu.php');
 
         $error_msg_medias = "";
         $mediasPath = null;
@@ -59,13 +60,12 @@ $page_courante = "contenu";
                 }
 
                 $categorieId = 15;
-
                 if ($mediasPath !== null) {
-                    // 🔹 Si nouveau média : insertion dans la table `medias`
-                    $section = mysqli_real_escape_string($connexion_bdd, $section);
-                    $mediasPath = mysqli_real_escape_string($connexion_bdd, $mediasPath);
+                    if ($section == "CV") { 
+                        $categorieId = 17;
+                    }
                     if (
-                        (empty($_POST["mediaExistant"]) && addMedia($connexion_bdd, $titre, $titre, $categorieId, $mediasPath, $titre) == "success") || 
+                        (empty($_POST["mediaExistant"]) && addMedia($connexion_bdd, $titre, $titre, $categorieId, $mediasPath, $section) == "success") || 
                         !empty($_POST["mediaExistant"])
                     ) {
                         // 🔹 Ajout du collaborateur avec le chemin de l’image

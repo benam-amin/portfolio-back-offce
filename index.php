@@ -21,12 +21,13 @@
 				require_once('header.php'); //récupération du header
 			?>
 				<section id="banner">
+					<?php $banner = getSectionElements($connexion_bdd, "banner"); ?>
 					<div class="content">
 						<header>
-							<h2>Amîn BENAMAOUCHE</h2>
-							<p>Étudiant en développement web</p>
+							<h2><?php echo  $banner['titre'];?></h2>
+							<p><?php echo  $banner['sousTitre'];?></p>
 						</header>
-						<span class="image"><img src="images/amin-benamaouche.jpg" alt="Photo de moi hehehe" /></span>
+						<span class="image"><img src="<?php echo  $banner['lienMedia'];?>" alt="<?php echo  $banner['sousTitre'];?>" /></span>
 					</div>
 					<a href="#skills" class="goto-next scrolly" title="En apprendre plus sur moi">Next</a>
 				</section>
