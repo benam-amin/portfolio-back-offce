@@ -11,5 +11,6 @@ function addContenu($link, $section, $titre, $sousTitre, $description, $lienMedi
     } else {
         echo "<p class='text-red-500 text-sm mt-2'>Erreur : " . mysqli_error($link) . "</p>";
     }
+    return "success";
 }
 ?>

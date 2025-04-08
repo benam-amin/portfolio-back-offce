@@ -27,11 +27,10 @@ if ($formulaire_soumis) {
         $pwd = $_POST['mdp'];
 
         if ($user && password_verify($pwd, $user['pwd'])) { //on test si user n'est pas vide et on compare les mots de passe entrés en paramètres avec password_verify, puisque les mdp sont cryptés
-            $_SESSION['user'] = $login; 
+            $_SESSION['user'] = $login; //l'utilisateur devient le login
             $_SESSION['connected'] = true; //on passe la valeur en true, pour éviter la redirection infinie vers cette page
             $_SESSION['admin'] = $user['admin'] == 1;
-
-            $redirectTo = "contenu/index.php"; //on redirige vers la gestion des projets
+            $redirectTo = $_SESSION['redirect_to']; //on redirige vers la page demandée
             header("Location: $redirectTo");
             exit(); //on s'arrête là
         } else {

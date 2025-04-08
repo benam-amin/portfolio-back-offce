@@ -71,7 +71,7 @@
                                                     <i class='fas fa-edit'></i>
                                                 </button>
                                             </a>
-                                            <button onclick=\"confirmerSuppression({$entite['id']}, 'contenus')\"
+                                            <button onclick=\"confirmerSuppression({$entite['id']}, 'contenu')\"
                                                 class='bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700'>
                                                 <i class='fas fa-trash'></i>
                                             </button>

@@ -49,7 +49,7 @@
                                             <i class='fas fa-edit'></i>
                                         </button>
                                     </a>
-                                    <button onclick="confirmerSuppression(<?php echo $entite['id']; ?>, 'reseaux')"
+                                    <button onclick="confirmerSuppression(<?php echo $entite['id']; ?>, 'outils')"
                                         class='bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700'>
                                         <i class='fas fa-trash'></i>
                                     </button>

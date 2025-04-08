@@ -99,9 +99,9 @@
 			<!-- Four -->
 				<section id="four" class="wrapper style1 special fade-up">
 					<div class="container">
-						<header class="major">
-							<h2>Les outils que j'utilise</h2>
-							<p>Présentation des outils que j'utilise lors de la réalisation de projets</p>
+						<header class="major"> <?php $sectionOutil = getSectionElements($connexion_bdd, "outils");  ?>
+							<h2><?php echo  $sectionOutil['titre'];?></h2>
+							<p><?php echo  $sectionOutil['sousTitre'];?></p>
 						</header>
 						<?php afficherOutils($connexion_bdd); ?>
 						<footer class="major">
