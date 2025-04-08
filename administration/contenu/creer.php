@@ -1,5 +1,5 @@
 <?php 
-$page_courante = "collaborators"; 
+$page_courante = "contenu"; 
 ?>
 <!DOCTYPE html>
 <html lang="fr">
