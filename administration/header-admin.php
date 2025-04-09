@@ -34,8 +34,9 @@
                         ? "text-blue-400 border-b-2 border-blue-400" 
                         : "text-white hover:text-blue-400 hover:border-b-2 hover:border-blue-400";
                     $aria_current_attr = $is_active ? " aria-current='page'" : "";
+                    $target = $entree_menu["clef"] == "site" ? 'target="_blank"' : '';
                 ?>
-                    <a href="<?= htmlspecialchars($entree_menu["lien"])  ?>" 
+                    <a href="<?= htmlspecialchars($entree_menu["lien"])  ?> " <?php echo $target; ?>
                        class="<?= htmlspecialchars($liste_classes) ?> px-3 py-2 font-medium transition duration-300" 
                        <?= $aria_current_attr ?>>
                         <?= htmlspecialchars($entree_menu["nom"]) ?>

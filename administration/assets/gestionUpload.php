@@ -1,5 +1,5 @@
 <?php
-function uploadImage($inputName, $categorie, $page_courante='', $uploadDir = '../../upload/', $allowedTypes = ["jpg", "png", "jpeg", "gif", "webp"], $maxSizeMB = 2) {
+function uploadImage($inputName, $categorie, $page_courante='', $uploadDir = '../../upload/', $allowedTypes = ["jpg", "png", "jpeg", "gif", "webp", "pdf"], $maxSizeMB = 2) {
     // Vérifie si un fichier a été envoyé et s'il n'y a pas d'erreur
     if (!isset($_FILES[$inputName]) || $_FILES[$inputName]["error"] !== UPLOAD_ERR_OK) {
         return ["error" => "Aucun fichier envoyé ou une erreur est survenue."];

@@ -35,10 +35,11 @@
 		<!-- Main -->
 		<div id="main" class="wrapper style1">
 			<section id="four" class="wrapper style1 special fade-up">
+			<?php $projetHeader = getSectionElements($connexion_bdd, "projets"); ?>
 				<div class="container">
-					<header>
-						<h2>Mes projets !</h2>
-						<p>Retrouvez l'ensemble de mes réalisations (ou presque...)</p>
+					<header class="major">
+						<h2><?php echo  $projetHeader['titre'];?></h2>
+						<p><?php echo  $projetHeader['sousTitre'];?></p>
 					</header>
 
 					<!-- Filtre catégories -->

@@ -29,11 +29,11 @@
 						</header>
 						<span class="image"><img src="<?php echo  $banner['lienMedia'];?>" alt="<?php echo  $banner['sousTitre'];?>" /></span>
 					</div>
-					<a href="#skills" class="goto-next scrolly" title="En apprendre plus sur moi">Next</a>
+					<a href="#about" class="goto-next" title="En apprendre plus sur moi">Next</a>
 				</section>
 
 			<!-- One -->
-				<section id="skills" class="spotlight style1 bottom">
+				<!-- <section id="skills" class="spotlight style1 bottom">
 					<span class="image fit main"><img src="images/pic02.jpg" alt="" /></span>
 					<div class="content">
 						<div class="container">
@@ -61,23 +61,25 @@
 							</div>
 						</div>
 					</div>
-					<a href="#two" class="goto-next scrolly">Next</a>
-				</section>
+					<a href="#two" class="goto-next ">Next</a>
+				</section> -->
 
 			<!-- Two -->
-				<section id="two" class="spotlight style2 right">
-					<span class="image fit main"><img src="images/pic03.jpg" alt="" /></span>
+				<section id="about" class="spotlight style2 right">
+				<?php $about = getSectionElements($connexion_bdd, "about"); ?>
+					<span class="image fit main"><img src="<?php echo $about['lienMedia'];?>" alt="<?php echo $about['sousTitre'];?>" /></span>
 					<div class="content">
 						<header>
-							<h2>Interdum amet non magna accumsan</h2>
-							<p>Nunc commodo accumsan eget id nisi eu col volutpat magna</p>
+							<h2><?php echo $about['titre'];?></h2>
+							<p><?php echo $about['sousTitre'];?></p>
 						</header>
-						<p>Feugiat accumsan lorem eu ac lorem amet ac arcu phasellus tortor enim mi mi nisi praesent adipiscing. Integer mi sed nascetur cep aliquet augue varius tempus lobortis porttitor lorem et accumsan consequat adipiscing lorem.</p>
+						<p><?php echo $about['description'];?></p>
 						<ul class="actions">
-							<li><a href="#" class="button">Learn More</a></li>
+							<?php $cv = getSectionElements($connexion_bdd, "CV"); ?>
+							<li><a href="<?php echo $cv['lienMedia'];?>" download="<?php echo $cv['titre'];?>" class="button"><i class="fa-sharp fa-solid fa-download"></i> <?php echo $cv['sousTitre'];?></a></li>
 						</ul>
 					</div>
-					<a href="#three" class="goto-next scrolly">Next</a>
+					<a href="#three" class="goto-next ">Next</a>
 				</section>
 
 			<!-- Three -->
@@ -93,7 +95,7 @@
 							<li><a href="#" class="button">Learn More</a></li>
 						</ul>
 					</div>
-					<a href="#four" class="goto-next scrolly">Next</a>
+					<a href="#four" class="goto-next ">Next</a>
 				</section>
 
 			<!-- Four -->

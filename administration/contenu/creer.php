@@ -73,7 +73,6 @@ $page_courante = "contenu";
 
             // 🔹 Ajout du contenu (avec ou sans image)
             if (addContenu($connexion_bdd, $section, $titre, $sousTitre, $description, $mediasPath) === "success") {
-                header("Location: ./");
                 exit();
             } else {
                 $error_msg = "Erreur lors de l'ajout du contenu.";

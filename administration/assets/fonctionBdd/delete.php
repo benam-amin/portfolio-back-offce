@@ -20,6 +20,7 @@ function deleteFromTable($connexion_bdd, $table, $id) {
         if ($resultat_lien) {
             $ligne = mysqli_fetch_assoc($resultat_lien);
             $lien = $ligne['lien'];
+            $lien = "../../../" . $lien;
 
             // Vérifier si le fichier existe sur le serveur et le supprimer
             if (file_exists($lien)) {

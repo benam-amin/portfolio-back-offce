@@ -33,10 +33,11 @@
 
 			<!-- Main -->
 				<div id="main" class="wrapper style1">
+				<?php $contact = getSectionElements($connexion_bdd, "contact"); ?>
 					<div class="container">
 						<header class="major">
-							<h2>Contactez moi !</h2>
-							<p>Faites-moi part de votre intérêt pour mon profil !</p>
+							<h2><?php echo  $contact['titre'];?></h2>
+							<p><?php echo  $contact['sousTitre'];?></p>
 						</header>
 
 						<!-- Content -->

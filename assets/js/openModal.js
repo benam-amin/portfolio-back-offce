@@ -20,9 +20,18 @@ function openModal(projetId) {
 function closeModal() {
     const modal = document.getElementById("customModal");
     if (!modal) return;
+
+    // Stopper les vidéos YouTube
+    const iframes = modal.querySelectorAll("iframe");
+    iframes.forEach(iframe => {
+        const src = iframe.src;
+        iframe.src = src;
+    });
+
     modal.style.opacity = "0";
     setTimeout(() => modal.style.display = "none", 300);
 }
+
 
 const modal = document.getElementById("customModal");
 if (modal) {
