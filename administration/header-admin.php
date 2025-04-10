@@ -20,9 +20,13 @@
         ["lien" => ".././outils/", "nom" => "OUTILS", "clef" => "outils"],
         ["lien" => ".././socials/", "nom" => "RÉSEAUX SOCIAUX", "clef" => "reseaux"],
         ["lien" => ".././navigation/", "nom" => "NAVIGATION", "clef" => "navigation"],
+        ["lien" => ".././message/", "nom" => "MESSAGES", "clef" => "message"],
         ["lien" => "../.././", "nom" => "VOIR LE SITE", "clef" => "site"]
     ];
 ?>
+<head>
+    <link rel="stylesheet" href="../assets/css/trumboyg.css">
+</head>
 
 <header id="header" class="bg-gray-900 shadow-lg">
     <div class="container mx-auto mx-2 py-4 flex justify-around items-center">

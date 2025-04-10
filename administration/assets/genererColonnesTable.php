@@ -1,4 +1,5 @@
 <?php 
+    //fonction qui génère les colonnes du tableau de l'administration
     function genererColonnesTableau($tableau) {
         ?>
         <thead>

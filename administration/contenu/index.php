@@ -15,7 +15,7 @@
         require_once('../header-admin.php'); //récupération du header
         require_once('../assets/genererColonnesTable.php');
         //les colonnes de la base de données : section, titre sousTitre, description, lienMedia
-        $colonnes = array("Section", "Titre", "Sous titre", "Description", "Lien vers le média");
+        $colonnes = array("Section", "Titre", "Sous titre", "Description", "Lien vers le média", "Lien du bouton");
     ?>
 
     <!-- Section principale -->
@@ -24,14 +24,14 @@
             <h1 class="text-3xl font-bold text-center mb-8">Contenu du site</h1>
             
             <!-- Bouton vers les pages de création --> 
-            <div class="flex justify-end mb-4">
+             <!-- le bouton d'ajout sera présent seulement au préalable, si on ajoute encore du contenu
+                     non prévu dans le front office il ne se passera rien -->
+            <!-- <div class="flex justify-end mb-4">
                 <a href="creer.php"
                     class="rounded-md py-2 px-4 text-base font-semibold text-white bg-gray-800 shadow-md hover:bg-gray-400 flex items-center gap-2">
-                    <!-- le bouton d'ajout sera présent seulement au préalable, si on ajoute encore du contenu
-                     non prévu dans le front office il ne se passera rien -->
                     <i class="fas fa-plus"></i> Ajouter un nouveau contenu 
                 </a>
-            </div>
+            </div> -->
 
             <!-- Tableau du contenu -->
             <div class="overflow-x-auto">
@@ -44,16 +44,16 @@
                                     echo "<tr class='text-center border-b'>";
                                     
                                     // Section
-                                    echo "<td class='px-6 py-3'>" . $entite["section"] . "</td>";
+                                    echo "<td class='px-6 py-3'>" . ($entite["section"] ?? '') . "</td>";
                                     
                                     // Titre
-                                    echo "<td class='px-6 py-3'>" . $entite["titre"] . "</td>";
+                                    echo "<td class='px-6 py-3'>" . ($entite["titre"] ?? '') . "</td>";
                                     
                                     // Sous-titre
-                                    echo "<td class='px-6 py-3'>" . $entite["sousTitre"] . "</td>";
+                                    echo "<td class='px-6 py-3'>" . ($entite["sousTitre"] ?? '') . "</td>";
                                     
                                     // Description
-                                    echo "<td class='px-6 py-3'>" . nl2br($entite["description"]) . "</td>";
+                                    echo "<td class='px-6 py-3'>" . nl2br($entite["description"] ?? '') . "</td>";
                                     
                                     // Lien vers le média
                                     echo "<td class='px-6 py-3'>";
@@ -63,7 +63,9 @@
                                         echo "<span class='text-gray-400 italic'>Aucun</span>";
                                     }
                                     echo "</td>";
-
+                                    
+                                    echo "<td class='px-6 py-3'>" . nl2br($entite["lienBouton"] ?? '') . "</td>";
+                            
                                     // Actions
                                     echo "<td class='px-6 py-3'>
                                             <a href='" . genererLienModif($entite["id"]) . "'>
@@ -78,7 +80,7 @@
                                         </td>";
                                     echo "</tr>";
                                 }
-                            }
+                            }                            
                         ?>
                     </tbody>
                 </table>

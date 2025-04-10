@@ -1,5 +1,5 @@
 Menu de navigation : 
-ACCUEIL - ABOUT - COMPETENCES - PROJETS - CONTACT 
+ACCUEIL - ABOUT - PROJETS - CONTACT 
 
 PLAN D'ACTION :
 - Menu de navigation + réseaux sociaux
@@ -12,9 +12,8 @@ PLAN D'ACTION :
     - Collaborateur
     - Date
     - Catégories
-    - Upload De fichier pour des putes
+    - Upload De fichier 
     - Descriptif du projet 
     - Visibilité
-    - Technologies utilisées 
     - Couleur du projet
     - Media couverture

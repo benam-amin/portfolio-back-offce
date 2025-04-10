@@ -12,7 +12,7 @@
 
     <!-- Header -->
     <?php
-    header('Location: projects/') ;
+    header('Location: contenu/') ;
     require_once('header-admin.php'); ?>
 
     <!-- Section principale -->

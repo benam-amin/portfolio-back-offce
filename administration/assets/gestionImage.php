@@ -9,9 +9,15 @@
         <?php } } ?>
         <div class="mb-4">
             <label id="mediaExistantLabel" class="block text-lg font-medium text-gray-700">Média existant</label>
-            <div id="mediaExistant" class="grid grid-cols-3 gap-4">
-                <!-- Médias chargés par JS -->
-            </div>
+            <button id="toggleMediaBtn" class="mb-4 text-blue-600 underline">
+                    Afficher les médias existants
+                </button>
+                <div id="mediaSection" class="hidden mt-4">
+                    <label id="mediaExistantLabel" class="block font-medium mb-2"></label>
+                    <div id="mediaExistant" class="grid grid-cols-3 gap-4">
+                         <!-- Médias chargés par JS -->
+                    </div>                                          
+                </div>
         </div>
 
         <!-- Upload de l'image -->

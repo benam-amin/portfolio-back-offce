@@ -90,9 +90,9 @@
 
 						<!-- Lien vers le projet -->
 						<?php if (!empty($projet['lienProjet'])): ?>
-							<ul class="actions">
+							<ul class="actions row aln-center ">
 								<li>
-									<a href="<?= htmlspecialchars($projet['lienProjet']) ?>" target="_blank" class="button bg-blue-500 text-white hover:bg-blue-600 px-6 py-3 rounded-lg">Voir Le projet</a>
+									<a href="<?= htmlspecialchars($projet['lienProjet']) ?>" target="_blank" class="button primary fit">Voir Le projet</a>
 								</li>
 							</ul>
 						<?php endif; ?>

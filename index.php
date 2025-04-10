@@ -1,9 +1,4 @@
 <!DOCTYPE HTML>
-<!--
-	Landed by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
 <html>
 	<head>
 		<title>PORTFOLIO AMÎN BENAMAOUCHE - Développeur Web</title>
@@ -11,131 +6,117 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	</head>
 	<body class="is-preload landing">
 		<div id="page-wrapper">
 			<?php 
-				require_once('header.php'); //récupération du header
+				// Inclusion du header de la page
+				require_once('header.php'); 
+				// Inclusion du fichier PHP pour générer les sections du portfolio
+				require_once('assets/php/sectionsIndex.php'); 
 			?>
-				<section id="banner">
-					<?php $banner = getSectionElements($connexion_bdd, "banner"); ?>
-					<div class="content">
-						<header>
-							<h2><?php echo  $banner['titre'];?></h2>
-							<p><?php echo  $banner['sousTitre'];?></p>
-						</header>
-						<span class="image"><img src="<?php echo  $banner['lienMedia'];?>" alt="<?php echo  $banner['sousTitre'];?>" /></span>
-					</div>
-					<a href="#about" class="goto-next" title="En apprendre plus sur moi">Next</a>
-				</section>
 
-			<!-- One -->
-				<!-- <section id="skills" class="spotlight style1 bottom">
-					<span class="image fit main"><img src="images/pic02.jpg" alt="" /></span>
-					<div class="content">
-						<div class="container">
-							<div class="row">
-								<div class="col-4 col-12-medium">
-									<header>
-										<h2>Odio faucibus ipsum integer consequat</h2>
-										<p>Nascetur eu nibh vestibulum amet gravida nascetur praesent</p>
-									</header>
-								</div>
-								<div class="col-4 col-12-medium">
-									<p>Feugiat accumsan lorem eu ac lorem amet sed accumsan donec.
-									Blandit orci porttitor semper. Arcu phasellus tortor enim mi
-									nisi praesent dolor adipiscing. Integer mi sed nascetur cep aliquet
-									augue varius tempus lobortis porttitor accumsan consequat
-									adipiscing lorem dolor.</p>
-								</div>
-								<div class="col-4 col-12-medium">
-									<p>Morbi enim nascetur et placerat lorem sed iaculis neque ante
-									adipiscing adipiscing metus massa. Blandit orci porttitor semper.
-									Arcu phasellus tortor enim mi mi nisi praesent adipiscing. Integer
-									mi sed nascetur cep aliquet augue varius tempus. Feugiat lorem
-									ipsum dolor nullam.</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<a href="#two" class="goto-next ">Next</a>
-				</section> -->
-
-			<!-- Two -->
-				<section id="about" class="spotlight style2 right">
-				<?php $about = getSectionElements($connexion_bdd, "about"); ?>
-					<span class="image fit main"><img src="<?php echo $about['lienMedia'];?>" alt="<?php echo $about['sousTitre'];?>" /></span>
-					<div class="content">
-						<header>
-							<h2><?php echo $about['titre'];?></h2>
-							<p><?php echo $about['sousTitre'];?></p>
-						</header>
-						<p><?php echo $about['description'];?></p>
-						<ul class="actions">
-							<?php $cv = getSectionElements($connexion_bdd, "CV"); ?>
-							<li><a href="<?php echo $cv['lienMedia'];?>" download="<?php echo $cv['titre'];?>" class="button"><i class="fa-sharp fa-solid fa-download"></i> <?php echo $cv['sousTitre'];?></a></li>
-						</ul>
-					</div>
-					<a href="#three" class="goto-next ">Next</a>
-				</section>
-
-			<!-- Three -->
-				<section id="three" class="spotlight style3 left">
-					<span class="image fit main bottom"><img src="images/pic04.jpg" alt="" /></span>
-					<div class="content">
-						<header>
-							<h2>Interdum felis blandit praesent sed augue</h2>
-							<p>Accumsan integer ultricies aliquam vel massa sapien phasellus</p>
-						</header>
-						<p>Feugiat accumsan lorem eu ac lorem amet ac arcu phasellus tortor enim mi mi nisi praesent adipiscing. Integer mi sed nascetur cep aliquet augue varius tempus lobortis porttitor lorem et accumsan consequat adipiscing lorem.</p>
-						<ul class="actions">
-							<li><a href="#" class="button">Learn More</a></li>
-						</ul>
-					</div>
-					<a href="#four" class="goto-next ">Next</a>
-				</section>
-
-			<!-- Four -->
-				<section id="four" class="wrapper style1 special fade-up">
-					<div class="container">
-						<header class="major"> <?php $sectionOutil = getSectionElements($connexion_bdd, "outils");  ?>
-							<h2><?php echo  $sectionOutil['titre'];?></h2>
-							<p><?php echo  $sectionOutil['sousTitre'];?></p>
-						</header>
-						<?php afficherOutils($connexion_bdd); ?>
-						<footer class="major">
-							<ul class="actions special">
-								<li><a href="projects.php" class="button">Découvrir les projets</a></li>
-							</ul>
-						</footer>
-					</div>
-				</section>
-
-			<!-- Five -->
-				<!-- <section id="five" class="wrapper style2 special fade">
-					<div class="container">
-						<header>
-							<h2>Magna faucibus lorem diam</h2>
-							<p>Ante metus praesent faucibus ante integer id accumsan eleifend</p>
-						</header>
-						<form method="post" action="#" class="cta">
-							<div class="row gtr-uniform gtr-50">
-								<div class="col-8 col-12-xsmall"><input type="email" name="email" id="email" placeholder="Your Email Address" /></div>
-								<div class="col-4 col-12-xsmall"><input type="submit" value="Get Started" class="fit primary" /></div>
-							</div>
-						</form>
-					</div>
-				</section> -->
-
-			<!-- Footer -->
-
-		</div>
-		<?php 
-					require_once('footer.php'); //récupération du footer
+			<!-- Banner Section -->
+			<section id="banner">
+				<?php 
+					// Récupération des éléments de la section 'banner' depuis la base de données
+					$banner = getSectionElements($connexion_bdd, "banner"); 
 				?>
+				<div class="content">
+					<header>
+						<!-- Titre et sous-titre de la section 'banner', avec une vérification si les valeurs sont nulles -->
+						<h2><?php echo $banner['titre'] ?? ''; ?></h2>
+						<p><?php echo $banner['sousTitre'] ?? ''; ?></p>
+					</header>
+					<span class="image">
+						<!-- Affichage de l'image associée à la section 'banner' ou une image par défaut si elle n'est pas définie -->
+						<img src="<?php echo $banner['lienMedia'] ?? 'assets/images/default-banner.jpg'; ?>" alt="<?php echo $banner['sousTitre'] ?? ''; ?>" />
+					</span>
+				</div>
+				<!-- Lien vers la section suivante -->
+				<a href="<?php echo $banner['lienBouton'] ?? ''; ?>" class="goto-next scrolly" title="En apprendre plus sur moi">Next</a>
+			</section>
+
+			<!-- About Section -->
+			<section id="about" class="spotlight style2 right">
+				<?php 
+					// Récupération des éléments de la section 'about' depuis la base de données
+					$about = getSectionElements($connexion_bdd, "about"); 
+				?>
+				<span class="image fit main"><img src="<?php echo $about['lienMedia'] ?? 'assets/images/default-about.jpg'; ?>" alt="<?php echo $about['sousTitre'] ?? ''; ?>" /></span>
+				<div class="content">
+					<header>
+						<!-- Titre et sous-titre de la section 'about' avec vérification des valeurs -->
+						<h2><?php echo $about['titre'] ?? ''; ?></h2>
+						<p><?php echo $about['sousTitre'] ?? ''; ?></p>
+					</header>
+					<!-- Description de la section 'about', avec valeur par défaut si absente -->
+					<p><?php echo $about['description'] ?? ''; ?></p>
+					<ul class="actions">
+						<?php 
+							// Récupération des éléments de la section 'CV' pour afficher un lien de téléchargement
+							$cv = getSectionElements($connexion_bdd, "CV");
+						?>
+						<li><a href="<?php echo $cv['lienMedia'] ?? '#'; ?>" download="<?php echo $cv['titre'] ?? ''; ?>" class="button"><i class="fa-sharp fa-solid fa-download"></i> <?php echo $cv['sousTitre'] ?? ''; ?></a></li>
+					</ul>
+				</div>
+				<!-- Lien vers la section suivante -->
+				<a href="<?php echo $about['lienBouton'] ?? ''; ?>" class="goto-next scrolly ">Next</a>
+			</section>
+
+			<!-- Interest Section -->
+			<section id="interest" class="spotlight style3 left">
+				<?php 
+					// Récupération des éléments de la section 'interest' depuis la base de données
+					$interest = getSectionElements($connexion_bdd, "interest"); 
+				?>
+				<span class="image fit main"><img src="<?php echo $interest['lienMedia'] ?? 'assets/images/default-interest.jpg'; ?>" alt="<?php echo $interest['sousTitre'] ?? ''; ?>" /></span>
+				<div class="content">
+					<header>
+						<!-- Titre et sous-titre de la section 'interest' avec vérification des valeurs -->
+						<h2><?php echo $interest['titre'] ?? ''; ?></h2>
+						<p><?php echo $interest['sousTitre'] ?? ''; ?></p>
+					</header>
+					<!-- Description de la section 'interest', avec valeur par défaut si absente -->
+					<p><?php echo $interest['description'] ?? ''; ?></p>
+					<ul class="actions">
+						<!-- Lien pour en savoir plus (optionnel) -->
+						<li><a href="projects.php" class="button">Découvrir les projets</a></li>
+					</ul>
+				</div>
+				<!-- Lien vers la section suivante -->
+				<a href="<?php echo $interest['lienBouton'] ?? ''; ?>" class="goto-next scrolly ">Next</a>
+			</section>
+			<!-- Outils Section -->
+			<section id="outils" class="wrapper style1 special fade-up">
+				<div class="container">
+					<header class="major"> 
+						<?php 
+							// Récupération des éléments de la section 'outils' depuis la base de données
+							$sectionOutil = getSectionElements($connexion_bdd, "outils");  
+						?>
+						<!-- Titre et sous-titre de la section 'outils' avec vérification des valeurs -->
+						<h2><?php echo $sectionOutil['titre'] ?? ''; ?></h2>
+						<p><?php echo $sectionOutil['sousTitre'] ?? ''; ?></p>
+					</header>
+					<?php 
+						// Appel de la fonction afficherOutils() pour afficher les outils (fonction définie ailleurs)
+						afficherOutils($connexion_bdd); 
+					?>
+					<footer class="major">
+						<ul class="actions special">
+							<li><a href="<?php echo $sectionOutil['lienBouton'] ?? ''; ?>" class="button">Découvrir les projets</a></li>
+						</ul>
+					</footer>
+				</div>
+			</section>
+		</div>
+
+		<?php 
+			// Inclusion du footer de la page
+			require_once('footer.php'); 
+		?>
 
 		<!-- Scripts -->
 		<?php require_once('assets/php/scripts.php'); ?>

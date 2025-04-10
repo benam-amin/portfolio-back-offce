@@ -138,7 +138,8 @@ $page_courante = "collaborators";
                 </form>
             </div>
             
-            <?php if (!empty($error_msg)) { ?>
+            <?php if (!empty($error_msg)) {
+                //s'il y a un message d'erreur défini on l'affiche ?>
                 <section class="mt-4 text-red-500 text-lg font-semibold" role="alert">
                     <p><?php echo $error_msg; ?></p>
                 </section>

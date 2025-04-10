@@ -1,4 +1,5 @@
 <?php 
+    //ajoute un collaborateurs
     function addCollaborator($connexion_bdd, $nom, $prenom, $contactListe, $liensContact, $avatar) {
         $requete = "INSERT INTO collaborators (nom, prenom, contactListe, liensContact, lienMedia) VALUES (?, ?, ?, ?, ?)";
                 // var_dump($_POST, $mediasPath);

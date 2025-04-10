@@ -7,4 +7,10 @@
     <? mysqli_close($connexion_bdd); // Fermeture de la connexion ?>
 </footer>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script src="../assets/fonctionBdd/delete.js"></script>
+<!-- tentative échouée d'utiliser Trumbowyg -->
+<!-- <?php if(($page_courante == "projects") || ($page_courante == "contenu")) { ?>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+<?php } ?> -->

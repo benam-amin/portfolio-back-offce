@@ -1,4 +1,5 @@
 <?php 
+    //permet d'obtenir le nom de l'id par la catégorie
     function getCategoriesName($connexion_bdd, $categorieId) {
         $requeteCategorieNom = "SELECT nom FROM categories WHERE id = $categorieId;";
         $resultatCategorieNom = mysqli_query($connexion_bdd, $requeteCategorieNom);

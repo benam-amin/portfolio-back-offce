@@ -4,33 +4,41 @@
 		<title>Mes Projets</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!-- Feuilles de style -->
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<link rel="stylesheet" href="assets/css/modale.css">
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<!-- Icônes FontAwesome -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 	</head>
+
 	<body class="is-preload">
 
 		<?php 
-			require_once('header.php');
-			require_once('administration/assets/fonctionBdd/filtre.php');
-			
-			$colonnesBDD = [
-				'projects.id', 
-				'projects.titre', 
-				'projects.lienMedia',
-				'projects.description',
-				'projects.visibilite',
-				'categories.nom AS categorie',
-				'GROUP_CONCAT(COALESCE(collaborators.nom, "Aucun collaborateur") SEPARATOR ", ") AS collaborateurs'
-			];			
+		require_once('header.php'); // Inclusion de l’en-tête
+		require_once('administration/assets/fonctionBdd/filtre.php'); // Fonctions pour gérer les filtres
+		
+		// Colonnes à récupérer dans la base de données
+		$colonnesBDD = [
+			'projects.id', 
+			'projects.titre', 
+			'projects.lienMedia',
+			'projects.description',
+			'projects.visibilite',
+			'categories.nom AS categorie',
+			'GROUP_CONCAT(COALESCE(collaborators.nom, "Aucun collaborateur") SEPARATOR ", ") AS collaborateurs'
+		];			
 
-			$categorie_filtre = isset($_GET['categorie']) ? mysqli_real_escape_string($connexion_bdd, $_GET['categorie']) : '';
+		// Récupération éventuelle du filtre catégorie passé en GET
+		$categorie_filtre = isset($_GET['categorie']) ? mysqli_real_escape_string($connexion_bdd, $_GET['categorie']) : '';
 
-			$resultat_categories = fetchFilteredData($connexion_bdd, 'categories', ["id", "nom"]);
+		// Requête des catégories pour les afficher dans le menu
+		$resultat_categories = fetchFilteredData($connexion_bdd, 'categories', ["id", "nom"]);
 
-			$resultat = fetchFilteredData($connexion_bdd, 'projects', $colonnesBDD, 'categories.id', $categorie_filtre);
-		?>
+		// Requête des projets filtrés selon la catégorie
+		$resultat = fetchFilteredData($connexion_bdd, 'projects', $colonnesBDD, 'categories.id', $categorie_filtre);
+	?>
+
 
 		<!-- Main -->
 		<div id="main" class="wrapper style1">
@@ -41,6 +49,7 @@
 						<h2><?php echo  $projetHeader['titre'];?></h2>
 						<p><?php echo  $projetHeader['sousTitre'];?></p>
 					</header>
+
 
 					<!-- Filtre catégories -->
 					<div class="categorie-toggle-wrapper">
@@ -62,7 +71,7 @@
 					<div class="row gtr-150">
 						<div class="col-12">
 							<div class="box alt">
-								<div class="row gtr-uniform">
+								<div class="row aln-left">
 									<?php 
 										if ($resultat->num_rows > 0) {
 											while ($entite = $resultat->fetch_assoc()) {

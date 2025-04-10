@@ -12,7 +12,7 @@
 }
 
     
-
+    //permet de mettre l'input de visibilité 
     function visibiliteInput($check ='') { ?>
         <div>
             <label class="block text-lg font-medium text-gray-700">Visibilité</label>

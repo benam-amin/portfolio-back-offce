@@ -1,7 +1,8 @@
 <?php
-function addContenu($link, $section, $titre, $sousTitre, $description, $lienMedia) {
-    $requete = "INSERT INTO contenu (section, titre, sousTitre, description, lienMedia)
-                VALUES ('$section', '$titre', '$sousTitre', '$description', '$lienMedia');";
+    //ajoute un contenu
+function addContenu($link, $section, $titre, $sousTitre, $description, $lienMedia, $lienBouton) {
+    $requete = "INSERT INTO contenu (section, titre, sousTitre, description, lienMedia, lienBouton)
+                VALUES ('$section', '$titre', '$sousTitre', '$description', '$lienMedia', '$lienBouton');";
     
     $resultat = mysqli_query($link, $requete);
 

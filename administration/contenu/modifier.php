@@ -14,21 +14,22 @@ $modifier = true;
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="bg-gray-100 text-gray-900" data-page-courante="<?php echo $page_courante ?>">
+
 <?php
     // Import des fichiers nécessaires
-    require_once('../header-admin.php');
-    require_once('../assets/fonctionBdd/addMedia.php');
-    require_once('../assets/gestionUpload.php');
-    require_once('../assets/fonctionBdd/editInit.php');
+    require_once('../header-admin.php'); // Récupération du header de l'administration
+    require_once('../assets/fonctionBdd/addMedia.php'); // Fonction pour ajouter des médias
+    require_once('../assets/gestionUpload.php'); // Gestion des uploads de fichiers
+    require_once('../assets/fonctionBdd/editInit.php'); // Initialisation pour l'édition d'un contenu
 
-    $error_msg = "";
+    $error_msg = ""; // Initialisation des messages d'erreur
     $error_msg_medias = "";
     $mediasPath = mysqli_real_escape_string($connexion_bdd, $entite['lienMedia']);
 
     // Choix du nom de la catégorie selon la section
     $nomCategorie = ($entite['section'] == "CV") ? "CV" : "contenu";  
 
-    // Récupération de la catégorie
+    // Récupération de la catégorie depuis la base de données
     $requeteCategorie = "SELECT id, nom FROM categories WHERE nom = '$nomCategorie';";
     $resultatCategories = mysqli_query($connexion_bdd, $requeteCategorie);
     $categorie_item = mysqli_fetch_assoc($resultatCategories);
@@ -39,45 +40,48 @@ $modifier = true;
     $queryMedias = "SELECT id, titre, lien FROM medias WHERE idCategories = $categorieId ORDER BY id DESC";
     $resultMedias = mysqli_query($connexion_bdd, $queryMedias);
     while ($media = mysqli_fetch_assoc($resultMedias)) {
-        $mediasExistants[] = $media;
+        $mediasExistants[] = $media; // Ajout des médias existants à un tableau
     }
 
     // Traitement du formulaire
     if ($formulaire_soumis) {
         if (!empty($_POST["section"])) {
-            // Nettoyage des champs
+            // Nettoyage des champs du formulaire
             $section = htmlentities($_POST["section"]);
             $titre = htmlentities($_POST["titre"]);
             $sousTitre = htmlentities($_POST["sousTitre"]);
             $description = htmlentities($_POST["description"]);
+            $lienBouton = htmlentities($_POST["lienBouton"]);
 
             // Gestion des médias : upload ou sélection (facultatif)
             if (!empty($_FILES["medias"]["name"])) {
                 // Tentative d'upload d'une nouvelle image
                 $uploadResult = uploadImage("medias", "contenu", $page_courante);
                 if (isset($uploadResult["success"])) {
+                    // Si l'upload réussit, ajout du média à la base de données
                     $mediasPath = mysqli_real_escape_string($connexion_bdd, $uploadResult["success"]);
-                    addMedia($connexion_bdd, $titre, $titre, $categorieId, $mediasPath, $section);
+                    $addMediaResult = addMedia($connexion_bdd, $titre, $titre, $categorieId, $mediasPath, $section);
+                    
+                    // Vérification de l'ajout
+                    if ($addMediaResult["success"]) {
+                        echo "<p class='text-green-500 text-lg font-semibold'>" . $addMediaResult["message"] . "</p>";
+                    } else {
+                        $error_msg_medias = $addMediaResult["message"]; // Message d'erreur
+                    }
                 } else {
-                    $error_msg_medias = $uploadResult["error"];
+                    $error_msg_medias = $uploadResult["error"]; // Message d'erreur en cas d'échec
                 }
-            } elseif (!empty($_POST["mediaExistant"])) {
-                // Choix d'un média existant
-                $mediasPath = mysqli_real_escape_string($connexion_bdd, $_POST["mediaExistant"]);
-            } else {
-                // Si aucun média n'est choisi, on laisse le lien existant (optionnel)
-                $mediasPath = mysqli_real_escape_string($connexion_bdd, $entite['lienMedia']);
             }
 
-            // Requête de mise à jour du contenu
-            $requete_modif = "UPDATE contenu SET section = '$section', titre = '$titre', sousTitre = '$sousTitre', description = '$description', lienMedia = '$mediasPath' WHERE id = $id;";
+            // Requête de mise à jour du contenu dans la base de données
+            $requete_modif = "UPDATE contenu SET section = '$section', titre = '$titre', sousTitre = '$sousTitre', description = '$description', lienMedia = '$mediasPath', lienBouton = '$lienBouton' WHERE id = $id;";
             $resultat_modif = mysqli_query($connexion_bdd, $requete_modif);
 
-            // Redirection
+            // Redirection vers la page principale après mise à jour
             header("Location: ./");
             exit();
         } else {
-            $error_msg = "Veuillez remplir tous les champs du formulaire.";
+            $error_msg = "Veuillez remplir tous les champs du formulaire."; // Message d'erreur si le formulaire n'est pas complet
         }
     }
 ?>
@@ -113,6 +117,12 @@ $modifier = true;
                         <label for="description" class="block text-lg font-medium text-gray-700">Description</label>
                         <textarea name="description" id="description" rows="4"
                             class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800"><?php echo $entite['description']; ?></textarea>
+                    </div>
+
+                    <div>
+                        <label for="lienBouton" class="block text-lg font-medium text-gray-700">Lien du bouton</label>
+                        <input type="text" name="lienBouton" id="lienBouton" rows="4"
+                            class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800"><?php echo $entite['lienBouton']; ?></input>
                     </div>
 
                     <!-- Catégorie masquée -->

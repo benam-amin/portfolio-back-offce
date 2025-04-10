@@ -1,6 +1,8 @@
+//permet d'ajouter une fenetre de confirmation pour la suppression
 function confirmerSuppression(id, table) {
     if (confirm("Êtes-vous sûr de vouloir supprimer cet élément ?")) {
         let xhr = new XMLHttpRequest();
+        //envoi un formulaire en method POST dans le fichier pour la suppression
         xhr.open("POST", "../assets/fonctionBdd/delete.php", true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         

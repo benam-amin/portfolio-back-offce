@@ -94,17 +94,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <section class="grid gap-6">
                         <div>
                             <label for="titre" class="block text-lg font-medium text-gray-700">Titre</label>
-                            <input type="text" placeholder="titre" name="titre" id="titre" value="<?php echo htmlspecialchars($titre); ?>" required
+                            <input type="text" placeholder="titre" name="titre" id="titre" value="<?php echo $titre; ?>" required
                                 class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800">
                         </div>
                         <div>
                             <label for="label" class="block text-lg font-medium text-gray-700">Label</label>
-                            <input type="text" placeholder="label" name="label" id="label" value="<?php echo htmlspecialchars($label); ?>" required
+                            <input type="text" placeholder="label" name="label" id="label" value="<?php echo $label; ?>" required
                                 class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800">
                         </div>
                         <div>
                             <label for="alt" class="block text-lg font-medium text-gray-700">Alt</label>
-                            <input type="text" placeholder="alt" name="alt" id="alt" value="<?php echo htmlspecialchars($alt); ?>"
+                            <input type="text" placeholder="alt" name="alt" id="alt" value="<?php echo $alt; ?>"
                                 class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800">
                         </div>
                         <div>
@@ -124,7 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <?php
                                 // Vérifiez si le chemin de l'image et l'alt sont définis
                                 if (!empty($mediasPath)) {
-                                    echo "<img src='../../" . htmlspecialchars($mediasPath) . "' class='max-w-full h-48 mx-auto rounded shadow-md' alt='" . htmlspecialchars($alt) . "'>";
+                                    echo "<img src='../../" . htmlspecialchars($mediasPath) . "' class='max-w-full h-48 mx-auto rounded shadow-md' alt='" . $alt . "'>";
                                 } else {
                                     echo "<p class='text-red-500'>Aucun média disponible pour l'aperçu.</p>";
                                 }

@@ -54,16 +54,16 @@ $resultat = fetchFilteredData($connexion_bdd, 'medias', $colonnes, 'categories.i
                                 <tr class="text-center border-b">
                                     <td class="px-6 py-3">
                                         <?php if (!empty($entite["lien"])) { ?>
-                                            <img src="../../<?php echo htmlspecialchars(stripslashes($entite["lien"])); ?>" class="h-12 w-12 object-cover mx-auto" alt="<?php echo htmlspecialchars($entite["alt"]); ?>">
+                                            <img src="../../<?php echo stripslashes($entite["lien"]); ?>" class="h-12 w-12 object-cover mx-auto" alt="<?php echo htmlspecialchars($entite["alt"]); ?>">
                                         <?php } else { ?>
                                             <i class="fa-solid fa-image text-gray-400 text-2xl"></i>
                                         <?php } ?>
                                     </td>
-                                    <td class="px-6 py-3"><?php echo htmlspecialchars($entite["titre"]); ?></td>
-                                    <td class="px-6 py-3"><?php echo htmlspecialchars($entite["label"]); ?></td>
-                                    <td class="px-6 py-3"><?php echo htmlspecialchars($entite["nom"]); ?></td>
-                                    <td class="px-6 py-3"><?php echo htmlspecialchars($entite["lien"]); ?></td>
-                                    <td class="px-6 py-3"><?php echo htmlspecialchars($entite["alt"]); ?></td>
+                                    <td class="px-6 py-3"><?php echo $entite["titre"]; ?></td>
+                                    <td class="px-6 py-3"><?php echo $entite["label"]; ?></td>
+                                    <td class="px-6 py-3"><?php echo $entite["nom"]; ?></td>
+                                    <td class="px-6 py-3"><?php echo $entite["lien"]; ?></td>
+                                    <td class="px-6 py-3"><?php echo $entite["alt"]; ?></td>
                                     <td class="px-6 py-3 flex justify-center gap-2">
                                         <a href="modifier.php?id=<?php echo $entite["id"]; ?>" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700">
                                             <i class="fas fa-edit"></i>

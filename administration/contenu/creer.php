@@ -1,16 +1,6 @@
 <?php 
 $page_courante = "contenu"; 
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Création - Contenu</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-</head>
-<body class="bg-gray-100 text-gray-900" data-page-courante="<?php echo $page_courante ?>">
 <?php
     require_once('../header-admin.php');
     require_once('../assets/fonctionBdd/addMedia.php');
@@ -44,6 +34,7 @@ $page_courante = "contenu";
             $titre = htmlentities($_POST["titre"]);
             $sousTitre = htmlentities($_POST["sousTitre"]);
             $description = htmlentities($_POST["description"]);
+            $lienBouton = htmlentities($_POST["lienBouton"]);
 
             // 🔹 Tentative d’upload d’une image
             if (!empty($_FILES["medias"]["name"])) {
@@ -72,7 +63,8 @@ $page_courante = "contenu";
             }
 
             // 🔹 Ajout du contenu (avec ou sans image)
-            if (addContenu($connexion_bdd, $section, $titre, $sousTitre, $description, $mediasPath) === "success") {
+            if (addContenu($connexion_bdd, $section, $titre, $sousTitre, $description, $mediasPath, $lienBouton) === "success") {
+                header("Location: ./");
                 exit();
             } else {
                 $error_msg = "Erreur lors de l'ajout du contenu.";
@@ -83,6 +75,17 @@ $page_courante = "contenu";
         }
     }
 ?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Création - Contenu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="bg-gray-100 text-gray-900" data-page-courante="<?php echo $page_courante ?>">
+
 
 <main class="mx-6 md:mx-20">
     <div class="mx-auto max-w-lg py-12">
@@ -113,6 +116,11 @@ $page_courante = "contenu";
                         <label for="description" class="block text-lg font-medium text-gray-700">Description</label>
                         <textarea name="description" id="description" rows="4" placeholder="Description détaillée"
                             class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800"></textarea>
+                    </div>
+                    <div>
+                        <label for="lienBouton" class="block text-lg font-medium text-gray-700">Lien du bouton</label>
+                        <input type="text" name="lienBouton" id="lienBouton" rows="4" placeholder="projects.php, https://..."
+                            class="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-gray-800 focus:ring-gray-800"></input>
                     </div>
 
                     <div class="hidden">

@@ -1,0 +1,49 @@
+     /* Style des divs pour les icônes */
+     .custom-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: #f3f4f6;
+        font-size: 1.5rem;
+        color: #4B5563;
+        cursor: pointer;
+        margin: 0 5px; /* Espacement horizontal entre les icônes */
+    }
+
+    .custom-icon:hover {
+        background-color: #3b82f6;
+        color: white;
+    }
+
+    /* Container de la toolbar : Flexbox pour aligner horizontalement */
+    .trumbowyg-button-pane {
+        display: flex;
+        justify-content: flex-start; /* Alignement à gauche */
+        gap: 10px; /* Espacement entre les boutons */
+    }
+
+    /* Styles supplémentaires pour personnaliser chaque icône */
+    .icon-bold {
+        font-weight: bold;
+    }
+
+    .icon-italic {
+        font-style: italic;
+    }
+
+    .icon-underline {
+        text-decoration: underline;
+    }
+
+    .icon-link {
+        font-family: 'FontAwesome';
+        content: '\f0c1'; /* Icône d'hyperlien FontAwesome */
+    }
+
+    .icon-code {
+        font-family: 'FontAwesome';
+        content: '\f121'; /* Icône de code FontAwesome */
+    }
