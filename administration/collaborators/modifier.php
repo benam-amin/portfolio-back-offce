@@ -20,7 +20,8 @@ $modifier = true;
 
     $error_msg = "";
     $error_msg_medias = "";
-    $mediasPath = mysqli_real_escape_string($connexion_bdd, $entite['lienMedia']);
+    $mediasPath = isset($entite['lienMedia']) ? mysqli_real_escape_string($connexion_bdd, $entite['lienMedia']) : '';
+
 
     // 🔹 Récupération catégorie "collaborateur"
     $requeteCategorie = "SELECT id, nom FROM categories WHERE nom = 'collaborateur';";
@@ -66,6 +67,7 @@ $modifier = true;
             $requete_modif = "UPDATE collaborators SET nom = '$nom', prenom = '$prenom', contactListe = '$contactListe', liensContact = '$liensContact', lienMedia = '$mediasPath' WHERE id = $id;";
             $resultat_modif = mysqli_query($connexion_bdd, $requete_modif);
 
+            // Déplacer header ici pour éviter le problème d'en-têtes déjà envoyées
             header("Location: ./");
             exit();
         } else {

@@ -57,8 +57,9 @@
 						<div id="categoriesMenu" class="categories-menu">
 							<ul class="alt">
 								<li><a href="?categorie=">Toutes</a></li>
-								<?php while ($cat = $resultat_categories->fetch_assoc()) { 
-									if ($cat['nom'] === "collaborateur") continue; ?>
+								<?php while ($cat = $resultat_categories->fetch_assoc()) {
+									$exclude = ["collaborateur", "contenu", "CV"]; 
+									if (in_array($cat['nom'], $exclude)) continue; ?>
 									<li><a href="?categorie=<?= $cat['id']; ?>">
 										<?= htmlspecialchars($cat['nom']); ?>
 									</a></li>

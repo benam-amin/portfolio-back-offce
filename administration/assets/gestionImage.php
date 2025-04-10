@@ -3,8 +3,8 @@
         <!-- Visualisation de l'image actuelle -->
         <?php if (!empty($entite['lienMedia'])) { ?>
             <div class="mb-4">
-                <label class="block text-lg font-medium text-gray-700">Image actuelle</label>
-                <img src="../../<?php echo htmlspecialchars($entite['lienMedia']); ?>" alt="Image actuelle du projet" class="w-full h-auto rounded-md mb-4">
+                <label class="block text-lg font-medium text-gray-700">Média actuel</label>
+                <img src="../../<?php echo htmlspecialchars($entite['lienMedia']); ?>" alt="Media actuel du projet" class="w-full h-auto rounded-md mb-4">
             </div>
         <?php } } ?>
         <div class="mb-4">

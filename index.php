@@ -13,8 +13,6 @@
 			<?php 
 				// Inclusion du header de la page
 				require_once('header.php'); 
-				// Inclusion du fichier PHP pour générer les sections du portfolio
-				require_once('assets/php/sectionsIndex.php'); 
 			?>
 
 			<!-- Banner Section -->

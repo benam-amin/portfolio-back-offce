@@ -25,20 +25,33 @@ document.getElementById('categorie').addEventListener('change', function () {
                 return;
             }
 
-            // Pour chaque média, on crée une case radio + vignette
-            medias.forEach(media => {
-                const mediaItem = document.createElement('div');
-                mediaItem.classList.add('mb-2');
+            // Vérifier si la catégorie est 'cv' (id = 17)
+            if (categorieId == 17) {
+                // Afficher uniquement le nom du fichier pour chaque média
+                medias.forEach(media => {
+                    const mediaItem = document.createElement('div');
+                    mediaItem.classList.add('mb-2');
+                    mediaItem.innerHTML = `
+                        <p class="text-gray-700">${media.lien.split('/').pop()}</p>
+                    `;
+                    mediaList.appendChild(mediaItem);
+                });
+            } else {
+                // Si ce n'est pas la catégorie 'cv', afficher les vignettes comme avant
+                medias.forEach(media => {
+                    const mediaItem = document.createElement('div');
+                    mediaItem.classList.add('mb-2');
 
-                mediaItem.innerHTML = `
-                    <label class="inline-flex items-center space-x-2">
-                        <input type="radio" name="mediaExistant" value="${media.lien}" class="form-radio text-blue-600">
-                        <img src="../../${media.lien}" alt="${media.nom}" class="w-24 h-24 object-cover rounded-md border" />
-                    </label>
-                `;
+                    mediaItem.innerHTML = `
+                        <label class="inline-flex items-center space-x-2">
+                            <input type="radio" name="mediaExistant" value="${media.lien}" class="form-radio text-blue-600">
+                            <img src="../../${media.lien}" alt="${media.nom}" class="w-24 h-24 object-cover rounded-md border" />
+                        </label>
+                    `;
 
-                mediaList.appendChild(mediaItem);
-            });
+                    mediaList.appendChild(mediaItem);
+                });
+            }
 
             // Afficher le bouton pour basculer l'affichage
             if (toggleBtn) toggleBtn.classList.remove('hidden');
