@@ -38,7 +38,7 @@ function fetchFilteredData($connexion_bdd, $table, $colonnes, $filtreBDD = '', $
 
     // Ajouter un GROUP BY si on est sur la table projects (pour gérer les GROUP_CONCAT)
     if ($table === 'projects') {
-        $requeteFiltre .= " GROUP BY projects.id";
+        $requeteFiltre .= " GROUP BY projects.id ORDER BY projects.date DESC";
     }
 
     // Debug

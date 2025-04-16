@@ -6,7 +6,7 @@
 ?>
 
 <header id="header">
-					<h1 id="logo"><a href="index.php">Landed</a></h1>
+					<h1 id="logo"><a href="index.php">Amîn</a></h1>
 					<nav id="nav">
 						<ul>
 							<?php displayNavMenu($connexion_bdd, "navigation");?>

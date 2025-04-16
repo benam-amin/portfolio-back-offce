@@ -75,8 +75,6 @@ if ($formulaire_soumis) {
     //     moveMediaFile($mediaLien, $categorie, $media["id"], $connexion_bdd);
     // }
 
-    // S'assurer que $mediasPath est bien échappé pour les caractères spéciaux
-    $mediasPath = mysqli_real_escape_string($connexion_bdd, $mediasPath);
     
         // Si $mediasPath a été modifié, mettre à jour le lien dans la table medias
     if ($mediasPath || $categorie != $entite["idCategories"]) {
